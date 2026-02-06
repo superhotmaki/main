@@ -256,14 +256,9 @@ body::after {
   margin: 0 auto;
   line-height: 1.5;
 }
-.philosophy-quote .attribution {
-  margin-top: 16px;
-  font-size: 0.85rem;
-  color: var(--text-dim);
-}
 
 /* ═══════════════════════════════════════
-   SECTION: FIVE INTELLIGENCES
+   SECTION: FIVE INTELLIGENCES — ORBITAL
    ═══════════════════════════════════════ */
 #intelligences {
   position: relative;
@@ -288,117 +283,223 @@ body::after {
   line-height: 1.1;
 }
 
-.intel-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-.intel-card {
+/* Orbital system */
+.orbit-system {
   position: relative;
-  background: var(--bg-card);
-  border: 1px solid rgba(58, 114, 51, 0.15);
-  border-radius: 16px;
-  padding: 32px 28px;
-  cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
-}
-.intel-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--card-accent);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-.intel-card:hover, .intel-card.active {
-  background: var(--bg-card-hover);
-  border-color: rgba(58, 114, 51, 0.35);
-  transform: translateY(-4px);
-}
-.intel-card:hover::before, .intel-card.active::before {
-  opacity: 1;
+  width: min(600px, 90vw);
+  height: min(600px, 90vw);
+  margin: 0 auto;
 }
 
-.intel-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+.orbit-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 5;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.orbit-center-glow {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 229, 199, 0.2) 0%, rgba(0, 229, 199, 0.03) 60%, transparent 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
-  margin-bottom: 20px;
-  background: rgba(0, 229, 199, 0.08);
-  border: 1px solid rgba(0, 229, 199, 0.12);
-  transition: all 0.4s;
+  margin: 0 auto 8px;
+  position: relative;
 }
-.intel-card:hover .intel-icon {
-  background: rgba(0, 229, 199, 0.15);
-  box-shadow: 0 0 24px rgba(0, 229, 199, 0.1);
+.orbit-center-glow::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 229, 199, 0.06) 0%, transparent 70%);
+  animation: gentlePulse 4s ease-in-out infinite;
+}
+.orbit-center-label {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--cyan);
+}
+.orbit-center-sub {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
 }
 
-.intel-name {
+/* Planet detail shown in center */
+.orbit-detail {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  max-width: 240px;
+  z-index: 6;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.orbit-detail.active {
+  opacity: 1;
+}
+.orbit-detail-name {
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  color: var(--text-primary);
+  font-size: 1.6rem;
   margin-bottom: 6px;
 }
-.intel-essence {
-  font-size: 0.82rem;
+.orbit-detail-essence {
+  font-size: 0.8rem;
   color: var(--text-dim);
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   line-height: 1.5;
 }
-.intel-oneliner {
+.orbit-detail-quote {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   color: var(--amber);
   line-height: 1.4;
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.intel-card:hover .intel-oneliner,
-.intel-card.active .intel-oneliner {
-  opacity: 1;
-  max-height: 100px;
-  margin-top: 12px;
 }
 
-/* Card accent colors */
-.intel-card[data-type="natural"]  { --card-accent: var(--moss-light); }
-.intel-card[data-type="human"]    { --card-accent: var(--amber); }
-.intel-card[data-type="moral"]    { --card-accent: var(--coral); }
-.intel-card[data-type="temporal"] { --card-accent: var(--sky); }
-.intel-card[data-type="attention"]{ --card-accent: var(--cyan); }
+@keyframes gentlePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+}
 
-.intel-card[data-type="natural"]  .intel-icon { color: var(--moss-light); background: rgba(90,154,80,0.1); border-color: rgba(90,154,80,0.2); }
-.intel-card[data-type="human"]    .intel-icon { color: var(--amber); background: rgba(212,165,90,0.1); border-color: rgba(212,165,90,0.2); }
-.intel-card[data-type="moral"]    .intel-icon { color: var(--coral); background: rgba(212,114,106,0.1); border-color: rgba(212,114,106,0.2); }
-.intel-card[data-type="temporal"] .intel-icon { color: var(--sky); background: rgba(90,158,190,0.1); border-color: rgba(90,158,190,0.2); }
-.intel-card[data-type="attention"] .intel-icon { color: var(--cyan); background: rgba(0,229,199,0.1); border-color: rgba(0,229,199,0.2); }
+/* Orbit tracks */
+.orbit-track {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(58, 114, 51, 0.1);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Orbit wrappers — rotating containers */
+.orbit-wrapper {
+  position: absolute;
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  animation: orbitSpin var(--speed) linear infinite;
+  pointer-events: none;
+}
+
+@keyframes orbitSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Planets */
+.planet {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: counterSpin var(--speed) linear infinite;
+  pointer-events: auto;
+  cursor: pointer;
+  text-align: center;
+  transition: filter 0.3s;
+  z-index: 3;
+}
+.planet:hover { filter: brightness(1.3); }
+
+@keyframes counterSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+.planet-body {
+  width: var(--size, 52px);
+  height: var(--size, 52px);
+  border-radius: 50%;
+  background: var(--planet-bg);
+  border: 1.5px solid var(--planet-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--size, 52px) * 0.4);
+  margin: 0 auto 6px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 20px var(--planet-glow, transparent);
+}
+.planet:hover .planet-body,
+.planet.active .planet-body {
+  transform: scale(1.15);
+  box-shadow: 0 0 32px var(--planet-glow);
+}
+
+.planet-label {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+.planet:hover .planet-label,
+.planet.active .planet-label {
+  color: var(--text-primary);
+}
+
+/* Planet theme colors */
+.planet[data-type="natural"]  {
+  --planet-bg: rgba(90, 154, 80, 0.2);
+  --planet-border: rgba(90, 154, 80, 0.4);
+  --planet-glow: rgba(90, 154, 80, 0.15);
+  --planet-color: var(--moss-light);
+}
+.planet[data-type="human"]    {
+  --planet-bg: rgba(212, 165, 90, 0.2);
+  --planet-border: rgba(212, 165, 90, 0.4);
+  --planet-glow: rgba(212, 165, 90, 0.15);
+  --planet-color: var(--amber);
+}
+.planet[data-type="moral"]    {
+  --planet-bg: rgba(212, 114, 106, 0.2);
+  --planet-border: rgba(212, 114, 106, 0.4);
+  --planet-glow: rgba(212, 114, 106, 0.15);
+  --planet-color: var(--coral);
+}
+.planet[data-type="temporal"] {
+  --planet-bg: rgba(90, 158, 190, 0.2);
+  --planet-border: rgba(90, 158, 190, 0.4);
+  --planet-glow: rgba(90, 158, 190, 0.15);
+  --planet-color: var(--sky);
+}
+.planet[data-type="attention"]{
+  --planet-bg: rgba(0, 229, 199, 0.2);
+  --planet-border: rgba(0, 229, 199, 0.4);
+  --planet-glow: rgba(0, 229, 199, 0.15);
+  --planet-color: var(--cyan);
+}
 
 /* ═══════════════════════════════════════
-   SECTION: THE STACK
+   SECTION: THE STACK — WATERFALL
    ═══════════════════════════════════════ */
 #stack {
   position: relative;
   padding: 60px 0 100px;
+  overflow: hidden;
+}
+
+#waterfall-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .stack-intro {
   text-align: center;
   margin-bottom: 80px;
+  position: relative;
+  z-index: 1;
 }
 
 .stack-flow {
@@ -406,39 +507,23 @@ body::after {
   max-width: 800px;
   margin: 0 auto;
   padding: 0 24px;
-}
-
-/* Vertical connecting line */
-.stack-flow::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 229, 199, 0.3),
-    rgba(212, 165, 90, 0.3),
-    rgba(90, 154, 80, 0.3),
-    rgba(139, 111, 71, 0.3)
-  );
-  transform: translateX(-50%);
+  z-index: 1;
 }
 
 .stack-layer {
   position: relative;
-  margin-bottom: 80px;
+  margin-bottom: 60px;
   padding: 36px 32px;
-  background: var(--bg-card);
+  background: rgba(12, 22, 12, 0.8);
   border: 1px solid rgba(255,255,255,0.05);
   border-radius: 20px;
-  backdrop-filter: blur(8px);
-  transition: all 0.4s;
+  backdrop-filter: blur(12px);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .stack-layer:hover {
-  border-color: rgba(255,255,255,0.1);
-  background: var(--bg-card-hover);
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(18, 32, 18, 0.9);
+  transform: scale(1.01);
 }
 
 .stack-layer-number {
@@ -627,12 +712,10 @@ body::after {
 .cell-node:nth-child(2) .node-pulse::after { animation-delay: 1s; }
 .cell-node:nth-child(3) .node-pulse::after { animation-delay: 2s; }
 
-/* Human cell node colors */
 .human-cell .cell-node:nth-child(1) .node-pulse { background: rgba(212,165,90,0.15); color: var(--amber); }
 .human-cell .cell-node:nth-child(2) .node-pulse { background: rgba(0,229,199,0.12); color: var(--cyan); }
 .human-cell .cell-node:nth-child(3) .node-pulse { background: rgba(90,158,190,0.12); color: var(--sky); }
 
-/* Agent cell node colors */
 .agent-cell .cell-node .node-pulse { background: rgba(90,154,80,0.12); color: var(--moss-light); }
 
 .node-name {
@@ -663,19 +746,9 @@ body::after {
   100% { transform: scale(1.6); opacity: 0; }
 }
 
-/* Agent cell - 5 agents layout */
-.agent-cell .cell-nodes {
-  gap: 16px;
-}
-.agent-cell .cell-node {
-  width: 180px;
-  padding: 24px 16px;
-}
-.agent-cell .node-pulse {
-  width: 44px;
-  height: 44px;
-  font-size: 1.1rem;
-}
+.agent-cell .cell-nodes { gap: 16px; }
+.agent-cell .cell-node { width: 180px; padding: 24px 16px; }
+.agent-cell .node-pulse { width: 44px; height: 44px; font-size: 1.1rem; }
 
 /* ═══════════════════════════════════════
    SECTION: FEEDBACK LOOP
@@ -709,10 +782,7 @@ body::after {
   animation: cycleRotate 6s linear infinite;
 }
 
-.cycle-nodes {
-  position: absolute;
-  inset: 0;
-}
+.cycle-nodes { position: absolute; inset: 0; }
 .cycle-node {
   position: absolute;
   width: 80px;
@@ -740,7 +810,6 @@ body::after {
   background: rgba(0, 229, 199, 0.08);
 }
 
-/* Position nodes around the circle */
 .cycle-node:nth-child(1) { top: -20px; left: 50%; transform: translateX(-50%); }
 .cycle-node:nth-child(2) { top: 50%;  right: -40px; transform: translateY(-50%); }
 .cycle-node:nth-child(3) { bottom: -20px; left: 50%; transform: translateX(-50%); }
@@ -748,15 +817,11 @@ body::after {
 
 .cycle-center {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
 }
-.cycle-center-icon {
-  font-size: 2rem;
-  margin-bottom: 4px;
-}
+.cycle-center-icon { font-size: 2rem; margin-bottom: 4px; }
 .cycle-center-text {
   font-family: var(--font-display);
   font-style: italic;
@@ -765,9 +830,7 @@ body::after {
   white-space: nowrap;
 }
 
-@keyframes cycleRotate {
-  to { transform: rotate(360deg); }
-}
+@keyframes cycleRotate { to { transform: rotate(360deg); } }
 
 .feedback-maxim {
   margin-top: 48px;
@@ -781,7 +844,7 @@ body::after {
 }
 
 /* ═══════════════════════════════════════
-   SECTION: FOOTER / RETURN
+   SECTION: FOOTER
    ═══════════════════════════════════════ */
 #footer {
   padding: 60px 24px 80px;
@@ -823,71 +886,37 @@ body::after {
   color: var(--text-dim);
   line-height: 1.8;
 }
-.footer-credits a {
-  color: var(--text-dim);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
 
 /* ═══════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════ */
 @media (max-width: 768px) {
-  .hero-stats {
-    gap: 24px 36px;
-  }
-  .intel-grid {
-    grid-template-columns: 1fr;
-  }
-  .stack-flow::before {
-    left: 24px;
-  }
-  .cell-nodes {
-    gap: 16px;
-  }
-  .cell-node {
-    width: 100%;
-    max-width: 300px;
-  }
-  .agent-cell .cell-node {
-    width: 140px;
-    padding: 18px 12px;
-  }
-  .agent-cell .node-name {
-    font-size: 0.95rem;
-  }
-  .feedback-cycle {
-    width: 260px;
-    height: 260px;
-  }
-  .cycle-node {
-    font-size: 0.65rem;
-  }
-  .cycle-node-icon {
-    width: 36px;
-    height: 36px;
-    font-size: 0.9rem;
-  }
+  .hero-stats { gap: 24px 36px; }
+  .orbit-system { width: 340px; height: 340px; }
+  .planet-label { font-size: 0.6rem; }
+  .planet-body { --size: 36px !important; }
+  .orbit-center-glow { width: 56px; height: 56px; }
+  .orbit-center-label { font-size: 1.3rem; }
+  .orbit-detail { max-width: 160px; }
+  .orbit-detail-name { font-size: 1.2rem; }
+  .orbit-detail-essence { font-size: 0.7rem; }
+  .orbit-detail-quote { font-size: 0.8rem; }
+  .cell-nodes { gap: 16px; }
+  .cell-node { width: 100%; max-width: 300px; }
+  .agent-cell .cell-node { width: 140px; padding: 18px 12px; }
+  .agent-cell .node-name { font-size: 0.95rem; }
+  .feedback-cycle { width: 260px; height: 260px; }
+  .cycle-node { font-size: 0.65rem; }
+  .cycle-node-icon { width: 36px; height: 36px; font-size: 0.9rem; }
 }
 
 @media (max-width: 480px) {
-  .hero-stats {
-    gap: 16px 28px;
-  }
-  .stat-value {
-    font-size: 1.6rem;
-  }
-  .cell-toggle-btn {
-    padding: 8px 18px;
-    font-size: 0.82rem;
-  }
-  .agent-cell .cell-nodes {
-    gap: 10px;
-  }
-  .agent-cell .cell-node {
-    width: 120px;
-    padding: 14px 10px;
-  }
+  .hero-stats { gap: 16px 28px; }
+  .stat-value { font-size: 1.6rem; }
+  .orbit-system { width: 280px; height: 280px; }
+  .cell-toggle-btn { padding: 8px 18px; font-size: 0.82rem; }
+  .agent-cell .cell-nodes { gap: 10px; }
+  .agent-cell .cell-node { width: 120px; padding: 14px 10px; }
 }
 
 /* ═══════════════════════════════════════
@@ -900,10 +929,7 @@ body::after {
     transition-duration: 0.001ms !important;
   }
   html { scroll-behavior: auto; }
-  .reveal {
-    opacity: 1;
-    transform: none;
-  }
+  .reveal { opacity: 1; transform: none; }
 }
 </style>
 </head>
@@ -915,7 +941,7 @@ body::after {
 <section id="hero">
   <canvas id="hero-canvas"></canvas>
   <div class="hero-content">
-    <p class="hero-sanskrit">ṛtaṃ ca satyaṃ ca</p>
+    <p class="hero-sanskrit">Natural Intelligence</p>
     <h1 class="hero-title"><span class="rita-dot">Ṛ</span>ta</h1>
     <p class="hero-subtitle">Right Time, Right Action</p>
     <div class="hero-stats">
@@ -966,7 +992,7 @@ body::after {
 </div>
 
 <!-- ═══════════════════════════════════════
-     FIVE INTELLIGENCES
+     FIVE INTELLIGENCES — ORBITAL SYSTEM
      ═══════════════════════════════════════ -->
 <section id="intelligences">
   <div class="topo-bg"></div>
@@ -974,36 +1000,73 @@ body::after {
     <p class="section-label">The Five Intelligences</p>
     <h2 class="section-title">What Ṛta Listens To</h2>
   </div>
-  <div class="intel-grid">
-    <div class="intel-card reveal reveal-delay-1" data-type="natural">
-      <div class="intel-icon">🌿</div>
-      <h3 class="intel-name">Natural</h3>
-      <p class="intel-essence">Land, seasons, soil, water, ecology, body, animals, materials</p>
-      <p class="intel-oneliner">Listening before extracting</p>
+
+  <div class="orbit-system reveal" id="orbit-system">
+    <!-- Center -->
+    <div class="orbit-center" id="orbit-center">
+      <div class="orbit-center-glow">
+        <span class="orbit-center-label">Ṛta</span>
+      </div>
+      <span class="orbit-center-sub">core</span>
     </div>
-    <div class="intel-card reveal reveal-delay-2" data-type="human">
-      <div class="intel-icon">🤲</div>
-      <h3 class="intel-name">Human</h3>
-      <p class="intel-essence">Emotion, relationship, culture, craft, community</p>
-      <p class="intel-oneliner">How we live with one another</p>
+
+    <!-- Detail panel (shown on planet click) -->
+    <div class="orbit-detail" id="orbit-detail">
+      <h3 class="orbit-detail-name" id="detail-name"></h3>
+      <p class="orbit-detail-essence" id="detail-essence"></p>
+      <p class="orbit-detail-quote" id="detail-quote"></p>
     </div>
-    <div class="intel-card reveal reveal-delay-3" data-type="moral">
-      <div class="intel-icon">⚖️</div>
-      <h3 class="intel-name">Moral</h3>
-      <p class="intel-essence">Restraint, responsibility, non-harm, right livelihood</p>
-      <p class="intel-oneliner">Just because we can doesn't mean we should</p>
+
+    <!-- Orbit tracks (visual rings) -->
+    <div class="orbit-track" style="width:160px;height:160px;"></div>
+    <div class="orbit-track" style="width:240px;height:240px;"></div>
+    <div class="orbit-track" style="width:320px;height:320px;"></div>
+    <div class="orbit-track" style="width:400px;height:400px;"></div>
+    <div class="orbit-track" style="width:480px;height:480px;"></div>
+
+    <!-- Planet 1: Natural — innermost, fastest -->
+    <div class="orbit-wrapper" style="width:160px;height:160px;--speed:25s;animation-delay:-5s;">
+      <div class="planet" data-type="natural" style="--size:52px;--speed:25s;animation-delay:-5s;"
+           data-name="Natural" data-essence="Land, seasons, soil, water, ecology, body, animals, materials" data-quote="Listening before extracting">
+        <div class="planet-body">🌿</div>
+        <span class="planet-label">Natural</span>
+      </div>
     </div>
-    <div class="intel-card reveal reveal-delay-4" data-type="temporal">
-      <div class="intel-icon">⏳</div>
-      <h3 class="intel-name">Temporal</h3>
-      <p class="intel-essence">Patience, long arcs, intergenerational thinking, legacy</p>
-      <p class="intel-oneliner">Playing games worth finishing after we're gone</p>
+
+    <!-- Planet 2: Human -->
+    <div class="orbit-wrapper" style="width:240px;height:240px;--speed:35s;animation-delay:-12s;">
+      <div class="planet" data-type="human" style="--size:56px;--speed:35s;animation-delay:-12s;"
+           data-name="Human" data-essence="Emotion, relationship, culture, craft, community" data-quote="How we live with one another">
+        <div class="planet-body">🤲</div>
+        <span class="planet-label">Human</span>
+      </div>
     </div>
-    <div class="intel-card reveal reveal-delay-5" data-type="attention">
-      <div class="intel-icon">◉</div>
-      <h3 class="intel-name">Attention</h3>
-      <p class="intel-essence">What we notice, what we ignore, what we feed</p>
-      <p class="intel-oneliner">Attention becomes reality</p>
+
+    <!-- Planet 3: Moral -->
+    <div class="orbit-wrapper" style="width:320px;height:320px;--speed:45s;animation-delay:-20s;">
+      <div class="planet" data-type="moral" style="--size:48px;--speed:45s;animation-delay:-20s;"
+           data-name="Moral" data-essence="Restraint, responsibility, non-harm, right livelihood" data-quote="Just because we can doesn't mean we should">
+        <div class="planet-body">⚖️</div>
+        <span class="planet-label">Moral</span>
+      </div>
+    </div>
+
+    <!-- Planet 4: Temporal -->
+    <div class="orbit-wrapper" style="width:400px;height:400px;--speed:55s;animation-delay:-30s;">
+      <div class="planet" data-type="temporal" style="--size:44px;--speed:55s;animation-delay:-30s;"
+           data-name="Temporal" data-essence="Patience, long arcs, intergenerational thinking, legacy" data-quote="Playing games worth finishing after we're gone">
+        <div class="planet-body">⏳</div>
+        <span class="planet-label">Temporal</span>
+      </div>
+    </div>
+
+    <!-- Planet 5: Attention — outermost, slowest -->
+    <div class="orbit-wrapper" style="width:480px;height:480px;--speed:60s;animation-delay:-40s;">
+      <div class="planet" data-type="attention" style="--size:40px;--speed:60s;animation-delay:-40s;"
+           data-name="Attention" data-essence="What we notice, what we ignore, what we feed" data-quote="Attention becomes reality">
+        <div class="planet-body">◉</div>
+        <span class="planet-label">Attention</span>
+      </div>
     </div>
   </div>
 </section>
@@ -1020,9 +1083,10 @@ body::after {
 </div>
 
 <!-- ═══════════════════════════════════════
-     THE STACK
+     THE STACK — WATERFALL
      ═══════════════════════════════════════ -->
 <section id="stack">
+  <canvas id="waterfall-canvas"></canvas>
   <div class="topo-bg"></div>
   <div class="stack-intro container reveal">
     <div class="section-header">
@@ -1031,7 +1095,6 @@ body::after {
     </div>
   </div>
   <div class="stack-flow">
-    <!-- Layer 1: Insight / Cosmic Rhythm -->
     <div class="stack-layer reveal">
       <div class="stack-layer-number">1</div>
       <h3 class="stack-layer-title">Insight</h3>
@@ -1047,7 +1110,6 @@ body::after {
       </div>
     </div>
 
-    <!-- Layer 2: Strategy -->
     <div class="stack-layer reveal">
       <div class="stack-layer-number">2</div>
       <h3 class="stack-layer-title">Strategy</h3>
@@ -1063,7 +1125,6 @@ body::after {
       </div>
     </div>
 
-    <!-- Layer 3: Taste -->
     <div class="stack-layer reveal">
       <div class="stack-layer-number">3</div>
       <h3 class="stack-layer-title">Taste</h3>
@@ -1079,7 +1140,6 @@ body::after {
       </div>
     </div>
 
-    <!-- Layer 4: Technology -->
     <div class="stack-layer reveal">
       <div class="stack-layer-number">4</div>
       <h3 class="stack-layer-title">Technology</h3>
@@ -1096,7 +1156,6 @@ body::after {
       </div>
     </div>
 
-    <!-- Layer 5: Earth / Reality -->
     <div class="stack-layer reveal">
       <div class="stack-layer-number">5</div>
       <h3 class="stack-layer-title">Earth / Reality</h3>
@@ -1144,7 +1203,6 @@ body::after {
     </div>
 
     <div class="cell-panels">
-      <!-- Human Cell -->
       <div class="cell-panel human-cell active" id="panel-human">
         <div class="cell-nodes">
           <div class="cell-node reveal reveal-delay-1">
@@ -1168,7 +1226,6 @@ body::after {
         </div>
       </div>
 
-      <!-- Agent Cell -->
       <div class="cell-panel agent-cell" id="panel-agent">
         <div class="cell-nodes">
           <div class="cell-node">
@@ -1271,21 +1328,36 @@ body::after {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ═══════════════════════════════════════
-     PARTICLE CANVAS — Hero Stream
+     HERO PARTICLE CANVAS — Mouse-reactive stars
      ═══════════════════════════════════════ */
   const canvas = document.getElementById('hero-canvas');
   const ctx = canvas.getContext('2d');
   let particles = [];
-  let animFrame;
   let scrollY = 0;
   let canvasW, canvasH;
 
+  // Mouse tracking for hero
+  let heroMouseX = -9999;
+  let heroMouseY = -9999;
+  const MOUSE_RADIUS = 150;
+  const MOUSE_STRENGTH = 0.8;
+
+  canvas.addEventListener('mousemove', function(e) {
+    const rect = canvas.getBoundingClientRect();
+    heroMouseX = e.clientX - rect.left;
+    heroMouseY = e.clientY - rect.top;
+  });
+  canvas.addEventListener('mouseleave', function() {
+    heroMouseX = -9999;
+    heroMouseY = -9999;
+  });
+
   const PARTICLE_COLORS = [
-    { r: 90, g: 154, b: 80 },   // green — natural
-    { r: 212, g: 165, b: 90 },  // gold — human
-    { r: 90, g: 158, b: 190 },  // blue — sensor
-    { r: 220, g: 216, b: 208 }, // white — wisdom
-    { r: 0, g: 200, b: 175 },   // cyan — attention
+    { r: 90, g: 154, b: 80 },
+    { r: 212, g: 165, b: 90 },
+    { r: 90, g: 158, b: 190 },
+    { r: 220, g: 216, b: 208 },
+    { r: 0, g: 200, b: 175 },
   ];
 
   function resizeCanvas() {
@@ -1301,11 +1373,11 @@ body::after {
     const count = Math.min(Math.floor(canvasW * canvasH / 3500), 300);
     particles = [];
     for (let i = 0; i < count; i++) {
-      const colorIndex = Math.floor(Math.random() * PARTICLE_COLORS.length);
-      const c = PARTICLE_COLORS[colorIndex];
+      const c = PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
       particles.push({
         x: Math.random() * canvasW,
         y: Math.random() * canvasH,
+        homeX: 0, homeY: 0,
         baseY: Math.random() * canvasH,
         radius: Math.random() * 2 + 0.5,
         speed: Math.random() * 0.3 + 0.1,
@@ -1315,13 +1387,15 @@ body::after {
         drift: (Math.random() - 0.5) * 0.3,
         color: c,
         alpha: Math.random() * 0.4 + 0.15,
+        // Offset from mouse push
+        offsetX: 0,
+        offsetY: 0,
       });
     }
   }
 
-  function drawParticles(time) {
+  function drawParticles() {
     ctx.clearRect(0, 0, canvasW, canvasH);
-
     const scrollFactor = Math.min(scrollY / canvasH, 1);
     const waveShift = scrollFactor * 0.5;
 
@@ -1330,48 +1404,68 @@ body::after {
 
       p.phase += p.phaseSpeed;
       p.x += p.drift;
-      p.y = p.baseY + Math.sin(p.phase + waveShift) * p.amplitude;
+      p.homeY = p.baseY + Math.sin(p.phase + waveShift) * p.amplitude;
 
       // Wrap around
       if (p.x < -10) p.x = canvasW + 10;
       if (p.x > canvasW + 10) p.x = -10;
 
-      // Fade particles near edges
-      const edgeFadeX = Math.min(p.x / 80, (canvasW - p.x) / 80, 1);
-      const edgeFadeY = Math.min(p.y / 80, (canvasH - p.y) / 80, 1);
+      // Mouse repulsion
+      const dx = p.x - heroMouseX;
+      const dy = p.homeY + p.offsetY - heroMouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < MOUSE_RADIUS && dist > 0) {
+        const force = (1 - dist / MOUSE_RADIUS) * MOUSE_STRENGTH;
+        p.offsetX += (dx / dist) * force * 2;
+        p.offsetY += (dy / dist) * force * 2;
+      }
+
+      // Ease offsets back to 0
+      p.offsetX *= 0.94;
+      p.offsetY *= 0.94;
+
+      const drawX = p.x + p.offsetX;
+      const drawY = p.homeY + p.offsetY;
+
+      const edgeFadeX = Math.min(drawX / 80, (canvasW - drawX) / 80, 1);
+      const edgeFadeY = Math.min(drawY / 80, (canvasH - drawY) / 80, 1);
       const edgeFade = Math.max(0, Math.min(edgeFadeX, edgeFadeY));
-
       const alpha = p.alpha * edgeFade * (1 - scrollFactor * 0.6);
-
       if (alpha < 0.01) continue;
 
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.arc(drawX, drawY, p.radius, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},${alpha})`;
       ctx.fill();
 
-      // Glow for larger particles
       if (p.radius > 1.5) {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius * 3, 0, Math.PI * 2);
+        ctx.arc(drawX, drawY, p.radius * 3, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},${alpha * 0.1})`;
         ctx.fill();
       }
     }
 
-    // Draw faint connecting lines between nearby particles
+    // Connecting lines
     ctx.lineWidth = 0.3;
     for (let i = 0; i < particles.length; i++) {
+      const pi = particles[i];
+      const pix = pi.x + pi.offsetX;
+      const piy = pi.homeY + pi.offsetY;
       for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = dx * dx + dy * dy;
+        const pj = particles[j];
+        const pjx = pj.x + pj.offsetX;
+        const pjy = pj.homeY + pj.offsetY;
+        const ddx = pix - pjx;
+        const ddy = piy - pjy;
+        const dist = ddx * ddx + ddy * ddy;
         if (dist < 4000) {
-          const lineAlpha = (1 - dist / 4000) * 0.08 * (1 - scrollFactor * 0.6);
+          const scrollFactor2 = Math.min(scrollY / canvasH, 1);
+          const lineAlpha = (1 - dist / 4000) * 0.08 * (1 - scrollFactor2 * 0.6);
           if (lineAlpha < 0.005) continue;
           ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.moveTo(pix, piy);
+          ctx.lineTo(pjx, pjy);
           ctx.strokeStyle = `rgba(0, 229, 199, ${lineAlpha})`;
           ctx.stroke();
         }
@@ -1379,66 +1473,211 @@ body::after {
     }
   }
 
-  function animateCanvas(time) {
-    drawParticles(time);
-    animFrame = requestAnimationFrame(animateCanvas);
+  function animateHero() {
+    drawParticles();
+    requestAnimationFrame(animateHero);
   }
 
-  function initCanvas() {
+  function initHeroCanvas() {
     resizeCanvas();
     createParticles();
     if (!prefersReducedMotion) {
-      animateCanvas(0);
+      animateHero();
     } else {
-      drawParticles(0);
+      drawParticles();
     }
   }
 
-  window.addEventListener('resize', () => {
-    resizeCanvas();
-    createParticles();
-  });
-
+  window.addEventListener('resize', () => { resizeCanvas(); createParticles(); });
   window.addEventListener('scroll', () => {
     scrollY = window.pageYOffset || document.documentElement.scrollTop;
   }, { passive: true });
+  initHeroCanvas();
 
-  initCanvas();
+  /* ═══════════════════════════════════════
+     WATERFALL CANVAS — The Stack background
+     ═══════════════════════════════════════ */
+  const wfCanvas = document.getElementById('waterfall-canvas');
+  const wfCtx = wfCanvas.getContext('2d');
+  const stackSection = document.getElementById('stack');
+  let wfParticles = [];
+  let wfW, wfH;
+  let wfMouseX = -9999, wfMouseY = -9999;
+  let wfVisible = false;
+  const WF_MOUSE_RADIUS = 120;
+
+  // Track mouse over stack section
+  stackSection.addEventListener('mousemove', function(e) {
+    const rect = stackSection.getBoundingClientRect();
+    wfMouseX = e.clientX - rect.left;
+    wfMouseY = e.clientY - rect.top;
+  });
+  stackSection.addEventListener('mouseleave', function() {
+    wfMouseX = -9999;
+    wfMouseY = -9999;
+  });
+
+  const WF_COLORS = [
+    { r: 40, g: 140, b: 180 },
+    { r: 60, g: 170, b: 200 },
+    { r: 0, g: 180, b: 160 },
+    { r: 80, g: 160, b: 210 },
+    { r: 100, g: 200, b: 220 },
+    { r: 200, g: 220, b: 230 },
+  ];
+
+  function resizeWaterfall() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    wfW = stackSection.offsetWidth;
+    wfH = stackSection.offsetHeight;
+    wfCanvas.width = wfW * dpr;
+    wfCanvas.height = wfH * dpr;
+    wfCanvas.style.width = wfW + 'px';
+    wfCanvas.style.height = wfH + 'px';
+    wfCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function createWaterfallParticles() {
+    const count = Math.min(Math.floor(wfW * wfH / 2500), 500);
+    wfParticles = [];
+    for (let i = 0; i < count; i++) {
+      const c = WF_COLORS[Math.floor(Math.random() * WF_COLORS.length)];
+      wfParticles.push({
+        x: Math.random() * wfW,
+        y: Math.random() * wfH,
+        vy: Math.random() * 1.5 + 0.5,
+        vx: (Math.random() - 0.5) * 0.3,
+        radius: Math.random() * 1.8 + 0.4,
+        color: c,
+        alpha: Math.random() * 0.25 + 0.05,
+        wobblePhase: Math.random() * Math.PI * 2,
+        wobbleSpeed: Math.random() * 0.02 + 0.005,
+        offsetX: 0,
+        offsetY: 0,
+      });
+    }
+  }
+
+  function drawWaterfall() {
+    wfCtx.clearRect(0, 0, wfW, wfH);
+
+    for (let i = 0; i < wfParticles.length; i++) {
+      const p = wfParticles[i];
+
+      // Natural falling motion with wobble
+      p.wobblePhase += p.wobbleSpeed;
+      p.y += p.vy;
+      p.x += p.vx + Math.sin(p.wobblePhase) * 0.3;
+
+      // Respawn at top
+      if (p.y > wfH + 10) {
+        p.y = -10;
+        p.x = Math.random() * wfW;
+      }
+      // Horizontal wrapping
+      if (p.x < -10) p.x = wfW + 10;
+      if (p.x > wfW + 10) p.x = -10;
+
+      // Mouse repulsion — water parts
+      const dx = p.x + p.offsetX - wfMouseX;
+      const dy = p.y + p.offsetY - wfMouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < WF_MOUSE_RADIUS && dist > 0) {
+        const force = (1 - dist / WF_MOUSE_RADIUS);
+        const pushX = (dx / dist) * force * 4;
+        const pushY = (dy / dist) * force * 2;
+        p.offsetX += pushX;
+        p.offsetY += pushY;
+      }
+
+      // Ease offsets back
+      p.offsetX *= 0.92;
+      p.offsetY *= 0.92;
+
+      const drawX = p.x + p.offsetX;
+      const drawY = p.y + p.offsetY;
+
+      // Draw droplet
+      wfCtx.beginPath();
+      wfCtx.arc(drawX, drawY, p.radius, 0, Math.PI * 2);
+      wfCtx.fillStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},${p.alpha})`;
+      wfCtx.fill();
+
+      // Glow for larger drops
+      if (p.radius > 1.5) {
+        wfCtx.beginPath();
+        wfCtx.arc(drawX, drawY, p.radius * 2.5, 0, Math.PI * 2);
+        wfCtx.fillStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},${p.alpha * 0.15})`;
+        wfCtx.fill();
+      }
+    }
+
+    // Draw faint vertical streaks for water feel
+    wfCtx.lineWidth = 0.3;
+    for (let i = 0; i < wfParticles.length; i++) {
+      const p = wfParticles[i];
+      if (p.vy > 1.2) {
+        const drawX = p.x + p.offsetX;
+        const drawY = p.y + p.offsetY;
+        wfCtx.beginPath();
+        wfCtx.moveTo(drawX, drawY);
+        wfCtx.lineTo(drawX - p.vx * 0.5, drawY - p.vy * 4);
+        wfCtx.strokeStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},${p.alpha * 0.3})`;
+        wfCtx.stroke();
+      }
+    }
+  }
+
+  function animateWaterfall() {
+    if (wfVisible) drawWaterfall();
+    requestAnimationFrame(animateWaterfall);
+  }
+
+  function initWaterfall() {
+    resizeWaterfall();
+    createWaterfallParticles();
+    if (!prefersReducedMotion) {
+      animateWaterfall();
+    } else {
+      drawWaterfall();
+    }
+  }
+
+  // Only animate waterfall when visible
+  if ('IntersectionObserver' in window) {
+    const wfObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { wfVisible = e.isIntersecting; });
+    }, { threshold: 0 });
+    wfObserver.observe(stackSection);
+  } else {
+    wfVisible = true;
+  }
+
+  window.addEventListener('resize', () => { resizeWaterfall(); createWaterfallParticles(); });
+  // Recalc waterfall size after fonts/images load
+  window.addEventListener('load', () => { resizeWaterfall(); createWaterfallParticles(); });
+  initWaterfall();
 
   /* ═══════════════════════════════════════
      STAT COUNTER ANIMATION
      ═══════════════════════════════════════ */
   function animateStats() {
-    const statValues = document.querySelectorAll('.stat-value');
-    statValues.forEach(el => {
+    document.querySelectorAll('.stat-value').forEach(el => {
       const target = el.dataset.target;
-      if (target === '∞') {
-        el.textContent = '∞';
-        return;
-      }
+      if (target === '∞') { el.textContent = '∞'; return; }
       const targetNum = parseInt(target, 10);
       if (isNaN(targetNum)) return;
-      let current = 0;
       const duration = 1500;
       const start = performance.now();
-
       function tick(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        current = Math.round(eased * targetNum);
-        el.textContent = current;
+        const progress = Math.min((now - start) / duration, 1);
+        el.textContent = Math.round((1 - Math.pow(1 - progress, 3)) * targetNum);
         if (progress < 1) requestAnimationFrame(tick);
       }
-      if (!prefersReducedMotion) {
-        requestAnimationFrame(tick);
-      } else {
-        el.textContent = target;
-      }
+      if (!prefersReducedMotion) requestAnimationFrame(tick);
+      else el.textContent = target;
     });
   }
-
-  // Start stat animation after hero loads
   setTimeout(animateStats, 1200);
 
   /* ═══════════════════════════════════════
@@ -1453,27 +1692,61 @@ body::after {
           observer.unobserve(entry.target);
         }
       });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -40px 0px'
-    });
-
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     reveals.forEach(el => observer.observe(el));
   } else {
-    // Show everything immediately if reduced motion or no IO
     reveals.forEach(el => el.classList.add('visible'));
   }
 
   /* ═══════════════════════════════════════
-     INTEL CARDS — Click toggle on mobile
+     ORBITAL SYSTEM — Planet interactions
      ═══════════════════════════════════════ */
-  const intelCards = document.querySelectorAll('.intel-card');
-  intelCards.forEach(card => {
-    card.addEventListener('click', () => {
-      const wasActive = card.classList.contains('active');
-      intelCards.forEach(c => c.classList.remove('active'));
-      if (!wasActive) card.classList.add('active');
+  const planets = document.querySelectorAll('.planet');
+  const orbitCenter = document.getElementById('orbit-center');
+  const orbitDetail = document.getElementById('orbit-detail');
+  const detailName = document.getElementById('detail-name');
+  const detailEssence = document.getElementById('detail-essence');
+  const detailQuote = document.getElementById('detail-quote');
+  let activePlanet = null;
+
+  planets.forEach(planet => {
+    planet.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const wasActive = planet === activePlanet;
+
+      // Clear previous
+      planets.forEach(p => p.classList.remove('active'));
+      activePlanet = null;
+
+      if (wasActive) {
+        // Deselect — show center again
+        orbitCenter.style.opacity = '1';
+        orbitDetail.classList.remove('active');
+        return;
+      }
+
+      // Select this planet
+      activePlanet = planet;
+      planet.classList.add('active');
+
+      // Show detail in center
+      const color = getComputedStyle(planet).getPropertyValue('--planet-color').trim();
+      detailName.textContent = planet.dataset.name;
+      detailName.style.color = color || 'var(--text-primary)';
+      detailEssence.textContent = planet.dataset.essence;
+      detailQuote.textContent = planet.dataset.quote;
+
+      orbitCenter.style.opacity = '0';
+      orbitDetail.classList.add('active');
     });
+  });
+
+  // Click outside to deselect
+  document.getElementById('orbit-system').addEventListener('click', function() {
+    planets.forEach(p => p.classList.remove('active'));
+    activePlanet = null;
+    orbitCenter.style.opacity = '1';
+    orbitDetail.classList.remove('active');
   });
 
   /* ═══════════════════════════════════════
@@ -1487,23 +1760,21 @@ body::after {
       const target = btn.dataset.panel;
       toggleBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
       panels.forEach(p => p.classList.remove('active'));
       const targetPanel = document.getElementById('panel-' + target);
-      if (targetPanel) targetPanel.classList.add('active');
-
-      // Re-trigger reveals in the new panel
-      const newReveals = targetPanel.querySelectorAll('.reveal');
-      newReveals.forEach(el => {
-        el.classList.remove('visible');
-        void el.offsetWidth; // force reflow
-        el.classList.add('visible');
-      });
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+        targetPanel.querySelectorAll('.reveal').forEach(el => {
+          el.classList.remove('visible');
+          void el.offsetWidth;
+          el.classList.add('visible');
+        });
+      }
     });
   });
 
   /* ═══════════════════════════════════════
-     RETURN TO COSMOS — smooth scroll
+     RETURN TO COSMOS
      ═══════════════════════════════════════ */
   document.getElementById('return-to-cosmos').addEventListener('click', function(e) {
     e.preventDefault();
