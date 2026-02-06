@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ṛta — Right Time, Right Action</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   ROOT & RESET
+   ═══════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-deep: #060d06;
+  --bg-primary: #0a1209;
+  --bg-card: rgba(18, 32, 18, 0.7);
+  --bg-card-hover: rgba(28, 50, 28, 0.85);
+
+  --moss: #3a7233;
+  --moss-light: #5a9a50;
+  --moss-dark: #1e3d1a;
+  --amber: #d4a55a;
+  --amber-glow: #e8c547;
+  --gold: #c9952e;
+  --sky: #5a9ebe;
+  --sky-light: #7ec0de;
+  --earth: #8b6f47;
+  --earth-warm: #a6845a;
+  --cyan: #00e5c7;
+  --cyan-dim: #0a8a76;
+  --coral: #d4726a;
+
+  --text-primary: #e8e0d4;
+  --text-secondary: #a09888;
+  --text-dim: #6a6258;
+
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+
+  --grain-opacity: 0.035;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-color: var(--moss-dark) var(--bg-deep);
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+/* ═══════════════════════════════════════
+   SHARED UTILITIES
+   ═══════════════════════════════════════ */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* Topographic background pattern */
+.topo-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='600' height='600' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='t' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Cellipse cx='100' cy='100' rx='90' ry='60' fill='none' stroke='%234a7' stroke-width='0.5'/%3E%3Cellipse cx='100' cy='100' rx='70' ry='45' fill='none' stroke='%234a7' stroke-width='0.5'/%3E%3Cellipse cx='100' cy='100' rx='50' ry='30' fill='none' stroke='%234a7' stroke-width='0.5'/%3E%3Cellipse cx='100' cy='100' rx='30' ry='18' fill='none' stroke='%234a7' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23t)'/%3E%3C/svg%3E");
+}
+
+/* Leaf vein divider */
+.leaf-divider {
+  width: 100%;
+  height: 60px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.leaf-divider svg {
+  width: 320px;
+  height: 40px;
+  opacity: 0.25;
+}
+
+/* ═══════════════════════════════════════
+   SECTION: HERO
+   ═══════════════════════════════════════ */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 40px 24px;
+}
+
+.hero-sanskrit {
+  font-family: var(--font-display);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: var(--amber);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: fadeSlideUp 1s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  line-height: 0.95;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: fadeSlideUp 1s 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-title .rita-dot {
+  color: var(--cyan);
+}
+
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 3vw, 1.8rem);
+  color: var(--text-secondary);
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeSlideUp 1s 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeSlideUp 1s 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stat {
+  text-align: center;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--cyan);
+  display: block;
+  line-height: 1.1;
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  animation: floatPulse 3s ease-in-out infinite;
+}
+.hero-scroll-hint .arrow {
+  width: 20px;
+  height: 20px;
+  border-right: 1.5px solid var(--text-dim);
+  border-bottom: 1.5px solid var(--text-dim);
+  transform: rotate(45deg);
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes floatPulse {
+  0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 0.8; transform: translateX(-50%) translateY(8px); }
+}
+
+/* ═══════════════════════════════════════
+   SECTION: PHILOSOPHY QUOTE
+   ═══════════════════════════════════════ */
+.philosophy-quote {
+  padding: 100px 24px;
+  text-align: center;
+  position: relative;
+}
+.philosophy-quote blockquote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.3rem, 3.5vw, 2.2rem);
+  color: var(--amber);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+.philosophy-quote .attribution {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+/* ═══════════════════════════════════════
+   SECTION: FIVE INTELLIGENCES
+   ═══════════════════════════════════════ */
+#intelligences {
+  position: relative;
+  padding: 80px 0 100px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.section-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cyan-dim);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.intel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.intel-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid rgba(58, 114, 51, 0.15);
+  border-radius: 16px;
+  padding: 32px 28px;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+.intel-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-accent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.intel-card:hover, .intel-card.active {
+  background: var(--bg-card-hover);
+  border-color: rgba(58, 114, 51, 0.35);
+  transform: translateY(-4px);
+}
+.intel-card:hover::before, .intel-card.active::before {
+  opacity: 1;
+}
+
+.intel-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  background: rgba(0, 229, 199, 0.08);
+  border: 1px solid rgba(0, 229, 199, 0.12);
+  transition: all 0.4s;
+}
+.intel-card:hover .intel-icon {
+  background: rgba(0, 229, 199, 0.15);
+  box-shadow: 0 0 24px rgba(0, 229, 199, 0.1);
+}
+
+.intel-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.intel-essence {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.intel-oneliner {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--amber);
+  line-height: 1.4;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.intel-card:hover .intel-oneliner,
+.intel-card.active .intel-oneliner {
+  opacity: 1;
+  max-height: 100px;
+  margin-top: 12px;
+}
+
+/* Card accent colors */
+.intel-card[data-type="natural"]  { --card-accent: var(--moss-light); }
+.intel-card[data-type="human"]    { --card-accent: var(--amber); }
+.intel-card[data-type="moral"]    { --card-accent: var(--coral); }
+.intel-card[data-type="temporal"] { --card-accent: var(--sky); }
+.intel-card[data-type="attention"]{ --card-accent: var(--cyan); }
+
+.intel-card[data-type="natural"]  .intel-icon { color: var(--moss-light); background: rgba(90,154,80,0.1); border-color: rgba(90,154,80,0.2); }
+.intel-card[data-type="human"]    .intel-icon { color: var(--amber); background: rgba(212,165,90,0.1); border-color: rgba(212,165,90,0.2); }
+.intel-card[data-type="moral"]    .intel-icon { color: var(--coral); background: rgba(212,114,106,0.1); border-color: rgba(212,114,106,0.2); }
+.intel-card[data-type="temporal"] .intel-icon { color: var(--sky); background: rgba(90,158,190,0.1); border-color: rgba(90,158,190,0.2); }
+.intel-card[data-type="attention"] .intel-icon { color: var(--cyan); background: rgba(0,229,199,0.1); border-color: rgba(0,229,199,0.2); }
+
+/* ═══════════════════════════════════════
+   SECTION: THE STACK
+   ═══════════════════════════════════════ */
+#stack {
+  position: relative;
+  padding: 60px 0 100px;
+}
+
+.stack-intro {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.stack-flow {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Vertical connecting line */
+.stack-flow::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 229, 199, 0.3),
+    rgba(212, 165, 90, 0.3),
+    rgba(90, 154, 80, 0.3),
+    rgba(139, 111, 71, 0.3)
+  );
+  transform: translateX(-50%);
+}
+
+.stack-layer {
+  position: relative;
+  margin-bottom: 80px;
+  padding: 36px 32px;
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  transition: all 0.4s;
+}
+.stack-layer:hover {
+  border-color: rgba(255,255,255,0.1);
+  background: var(--bg-card-hover);
+}
+
+.stack-layer-number {
+  position: absolute;
+  top: -16px;
+  left: 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--bg-deep);
+}
+.stack-layer:nth-child(1) .stack-layer-number { background: var(--cyan); }
+.stack-layer:nth-child(2) .stack-layer-number { background: var(--sky); }
+.stack-layer:nth-child(3) .stack-layer-number { background: var(--amber); }
+.stack-layer:nth-child(4) .stack-layer-number { background: var(--moss-light); }
+.stack-layer:nth-child(5) .stack-layer-number { background: var(--earth-warm); }
+
+.stack-layer-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 4px;
+}
+.stack-layer:nth-child(1) .stack-layer-title { color: var(--cyan); }
+.stack-layer:nth-child(2) .stack-layer-title { color: var(--sky-light); }
+.stack-layer:nth-child(3) .stack-layer-title { color: var(--amber); }
+.stack-layer:nth-child(4) .stack-layer-title { color: var(--moss-light); }
+.stack-layer:nth-child(5) .stack-layer-title { color: var(--earth-warm); }
+
+.stack-layer-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.stack-principles {
+  list-style: none;
+  margin-bottom: 20px;
+}
+.stack-principles li {
+  padding: 6px 0;
+  padding-left: 20px;
+  position: relative;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+.stack-principles li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--text-dim);
+}
+
+.stack-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 18px;
+  background: rgba(212, 114, 106, 0.06);
+  border: 1px solid rgba(212, 114, 106, 0.12);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: var(--coral);
+  line-height: 1.5;
+}
+.stack-warning .warn-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ═══════════════════════════════════════
+   SECTION: HUMAN & AGENT CELLS
+   ═══════════════════════════════════════ */
+#cells {
+  position: relative;
+  padding: 80px 0 100px;
+}
+
+.cells-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.cell-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+.cell-toggle-track {
+  display: flex;
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 50px;
+  padding: 4px;
+  gap: 4px;
+}
+.cell-toggle-btn {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  padding: 10px 28px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-dim);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cell-toggle-btn.active {
+  background: var(--moss-dark);
+  color: var(--text-primary);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+.cell-toggle-btn:hover:not(.active) {
+  color: var(--text-secondary);
+}
+
+.cell-panels {
+  position: relative;
+  min-height: 380px;
+}
+.cell-panel {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cell-panel.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  position: relative;
+}
+
+.cell-nodes {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.cell-node {
+  width: 260px;
+  padding: 32px 24px;
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  text-align: center;
+  position: relative;
+  transition: all 0.4s;
+}
+.cell-node:hover {
+  border-color: rgba(255,255,255,0.12);
+  transform: translateY(-4px);
+  background: var(--bg-card-hover);
+}
+
+.node-pulse {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  position: relative;
+}
+.node-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  opacity: 0;
+  animation: pulseRing 3s ease-out infinite;
+}
+.cell-node:nth-child(1) .node-pulse::after { animation-delay: 0s; }
+.cell-node:nth-child(2) .node-pulse::after { animation-delay: 1s; }
+.cell-node:nth-child(3) .node-pulse::after { animation-delay: 2s; }
+
+/* Human cell node colors */
+.human-cell .cell-node:nth-child(1) .node-pulse { background: rgba(212,165,90,0.15); color: var(--amber); }
+.human-cell .cell-node:nth-child(2) .node-pulse { background: rgba(0,229,199,0.12); color: var(--cyan); }
+.human-cell .cell-node:nth-child(3) .node-pulse { background: rgba(90,158,190,0.12); color: var(--sky); }
+
+/* Agent cell node colors */
+.agent-cell .cell-node .node-pulse { background: rgba(90,154,80,0.12); color: var(--moss-light); }
+
+.node-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.node-desc {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.cell-memory-thread {
+  text-align: center;
+  margin-top: 32px;
+  padding: 16px 24px;
+  border: 1px dashed rgba(0, 229, 199, 0.15);
+  border-radius: 12px;
+  font-size: 0.82rem;
+  color: var(--cyan-dim);
+  font-style: italic;
+}
+
+@keyframes pulseRing {
+  0%   { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Agent cell - 5 agents layout */
+.agent-cell .cell-nodes {
+  gap: 16px;
+}
+.agent-cell .cell-node {
+  width: 180px;
+  padding: 24px 16px;
+}
+.agent-cell .node-pulse {
+  width: 44px;
+  height: 44px;
+  font-size: 1.1rem;
+}
+
+/* ═══════════════════════════════════════
+   SECTION: FEEDBACK LOOP
+   ═══════════════════════════════════════ */
+#feedback {
+  position: relative;
+  padding: 80px 0 60px;
+  text-align: center;
+}
+
+.feedback-cycle {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin: 48px auto;
+}
+
+.cycle-ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(58, 114, 51, 0.2);
+  border-radius: 50%;
+}
+.cycle-ring::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--cyan);
+  animation: cycleRotate 6s linear infinite;
+}
+
+.cycle-nodes {
+  position: absolute;
+  inset: 0;
+}
+.cycle-node {
+  position: absolute;
+  width: 80px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  transition: color 0.3s;
+}
+.cycle-node:hover { color: var(--text-primary); }
+.cycle-node-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1.5px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+}
+.cycle-node:hover .cycle-node-icon {
+  border-color: rgba(0, 229, 199, 0.3);
+  background: rgba(0, 229, 199, 0.08);
+}
+
+/* Position nodes around the circle */
+.cycle-node:nth-child(1) { top: -20px; left: 50%; transform: translateX(-50%); }
+.cycle-node:nth-child(2) { top: 50%;  right: -40px; transform: translateY(-50%); }
+.cycle-node:nth-child(3) { bottom: -20px; left: 50%; transform: translateX(-50%); }
+.cycle-node:nth-child(4) { top: 50%;  left: -40px;  transform: translateY(-50%); }
+
+.cycle-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.cycle-center-icon {
+  font-size: 2rem;
+  margin-bottom: 4px;
+}
+.cycle-center-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--amber);
+  white-space: nowrap;
+}
+
+@keyframes cycleRotate {
+  to { transform: rotate(360deg); }
+}
+
+.feedback-maxim {
+  margin-top: 48px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ═══════════════════════════════════════
+   SECTION: FOOTER / RETURN
+   ═══════════════════════════════════════ */
+#footer {
+  padding: 60px 24px 80px;
+  text-align: center;
+}
+
+.return-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--cyan);
+  background: rgba(0, 229, 199, 0.06);
+  border: 1px solid rgba(0, 229, 199, 0.15);
+  border-radius: 50px;
+  padding: 14px 32px;
+  cursor: pointer;
+  transition: all 0.4s;
+  text-decoration: none;
+}
+.return-btn:hover {
+  background: rgba(0, 229, 199, 0.12);
+  border-color: rgba(0, 229, 199, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 229, 199, 0.1);
+}
+.return-btn .arrow-up {
+  display: inline-block;
+  transition: transform 0.3s;
+}
+.return-btn:hover .arrow-up {
+  transform: translateY(-3px);
+}
+
+.footer-credits {
+  margin-top: 40px;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+.footer-credits a {
+  color: var(--text-dim);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  .hero-stats {
+    gap: 24px 36px;
+  }
+  .intel-grid {
+    grid-template-columns: 1fr;
+  }
+  .stack-flow::before {
+    left: 24px;
+  }
+  .cell-nodes {
+    gap: 16px;
+  }
+  .cell-node {
+    width: 100%;
+    max-width: 300px;
+  }
+  .agent-cell .cell-node {
+    width: 140px;
+    padding: 18px 12px;
+  }
+  .agent-cell .node-name {
+    font-size: 0.95rem;
+  }
+  .feedback-cycle {
+    width: 260px;
+    height: 260px;
+  }
+  .cycle-node {
+    font-size: 0.65rem;
+  }
+  .cycle-node-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-stats {
+    gap: 16px 28px;
+  }
+  .stat-value {
+    font-size: 1.6rem;
+  }
+  .cell-toggle-btn {
+    padding: 8px 18px;
+    font-size: 0.82rem;
+  }
+  .agent-cell .cell-nodes {
+    gap: 10px;
+  }
+  .agent-cell .cell-node {
+    width: 120px;
+    padding: 14px 10px;
+  }
+}
+
+/* ═══════════════════════════════════════
+   REDUCED MOTION
+   ═══════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  html { scroll-behavior: auto; }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════ -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <p class="hero-sanskrit">ṛtaṃ ca satyaṃ ca</p>
+    <h1 class="hero-title"><span class="rita-dot">Ṛ</span>ta</h1>
+    <p class="hero-subtitle">Right Time, Right Action</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value" data-target="5" data-suffix="">0</span>
+        <span class="stat-label">intelligences — layered, not ranked</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" data-target="∞" data-suffix="">∞</span>
+        <span class="stat-label">feedback loops — earth always answers</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" data-target="1" data-suffix="">0</span>
+        <span class="stat-label">rule — technology never decides</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" data-target="0" data-suffix="">–</span>
+        <span class="stat-label">shortcuts — to wisdom</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>DESCEND</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     PHILOSOPHY QUOTE
+     ═══════════════════════════════════════ -->
+<section class="philosophy-quote">
+  <div class="container">
+    <blockquote class="reveal">
+      "Intelligence flows downward like water; wisdom rises back like roots."
+    </blockquote>
+  </div>
+</section>
+
+<!-- Leaf Divider -->
+<div class="leaf-divider reveal">
+  <svg viewBox="0 0 320 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 20 Q80 5 160 20 Q240 35 300 20" stroke="#3a7233" stroke-width="0.8" fill="none"/>
+    <path d="M60 20 Q120 10 160 20 Q200 30 260 20" stroke="#3a7233" stroke-width="0.5" fill="none"/>
+    <path d="M100 20 Q130 15 160 20 Q190 25 220 20" stroke="#3a7233" stroke-width="0.5" fill="none"/>
+    <line x1="160" y1="8" x2="160" y2="32" stroke="#3a7233" stroke-width="0.4"/>
+    <circle cx="160" cy="20" r="2" fill="#3a7233" opacity="0.5"/>
+  </svg>
+</div>
+
+<!-- ═══════════════════════════════════════
+     FIVE INTELLIGENCES
+     ═══════════════════════════════════════ -->
+<section id="intelligences">
+  <div class="topo-bg"></div>
+  <div class="section-header reveal">
+    <p class="section-label">The Five Intelligences</p>
+    <h2 class="section-title">What Ṛta Listens To</h2>
+  </div>
+  <div class="intel-grid">
+    <div class="intel-card reveal reveal-delay-1" data-type="natural">
+      <div class="intel-icon">🌿</div>
+      <h3 class="intel-name">Natural</h3>
+      <p class="intel-essence">Land, seasons, soil, water, ecology, body, animals, materials</p>
+      <p class="intel-oneliner">Listening before extracting</p>
+    </div>
+    <div class="intel-card reveal reveal-delay-2" data-type="human">
+      <div class="intel-icon">🤲</div>
+      <h3 class="intel-name">Human</h3>
+      <p class="intel-essence">Emotion, relationship, culture, craft, community</p>
+      <p class="intel-oneliner">How we live with one another</p>
+    </div>
+    <div class="intel-card reveal reveal-delay-3" data-type="moral">
+      <div class="intel-icon">⚖️</div>
+      <h3 class="intel-name">Moral</h3>
+      <p class="intel-essence">Restraint, responsibility, non-harm, right livelihood</p>
+      <p class="intel-oneliner">Just because we can doesn't mean we should</p>
+    </div>
+    <div class="intel-card reveal reveal-delay-4" data-type="temporal">
+      <div class="intel-icon">⏳</div>
+      <h3 class="intel-name">Temporal</h3>
+      <p class="intel-essence">Patience, long arcs, intergenerational thinking, legacy</p>
+      <p class="intel-oneliner">Playing games worth finishing after we're gone</p>
+    </div>
+    <div class="intel-card reveal reveal-delay-5" data-type="attention">
+      <div class="intel-icon">◉</div>
+      <h3 class="intel-name">Attention</h3>
+      <p class="intel-essence">What we notice, what we ignore, what we feed</p>
+      <p class="intel-oneliner">Attention becomes reality</p>
+    </div>
+  </div>
+</section>
+
+<!-- Leaf Divider -->
+<div class="leaf-divider reveal">
+  <svg viewBox="0 0 320 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 20 Q80 5 160 20 Q240 35 300 20" stroke="#3a7233" stroke-width="0.8" fill="none"/>
+    <path d="M60 20 Q120 10 160 20 Q200 30 260 20" stroke="#3a7233" stroke-width="0.5" fill="none"/>
+    <path d="M100 20 Q130 15 160 20 Q190 25 220 20" stroke="#3a7233" stroke-width="0.5" fill="none"/>
+    <line x1="160" y1="8" x2="160" y2="32" stroke="#3a7233" stroke-width="0.4"/>
+    <circle cx="160" cy="20" r="2" fill="#3a7233" opacity="0.5"/>
+  </svg>
+</div>
+
+<!-- ═══════════════════════════════════════
+     THE STACK
+     ═══════════════════════════════════════ -->
+<section id="stack">
+  <div class="topo-bg"></div>
+  <div class="stack-intro container reveal">
+    <div class="section-header">
+      <p class="section-label">The Stack — Cosmos to Earth</p>
+      <h2 class="section-title">How Intelligence Descends</h2>
+    </div>
+  </div>
+  <div class="stack-flow">
+    <!-- Layer 1: Insight / Cosmic Rhythm -->
+    <div class="stack-layer reveal">
+      <div class="stack-layer-number">1</div>
+      <h3 class="stack-layer-title">Insight</h3>
+      <p class="stack-layer-subtitle">Cosmic Rhythm — the pattern behind the pattern</p>
+      <ul class="stack-principles">
+        <li>Ṛta is the order that doesn't command — it reveals</li>
+        <li>Insight emerges from stillness, not analysis</li>
+        <li>The cosmos speaks in rhythm; the mind must quiet to hear</li>
+      </ul>
+      <div class="stack-warning">
+        <span class="warn-icon">⚠</span>
+        <span>Insight hoarded becomes ideology. It must flow downward or it corrupts.</span>
+      </div>
+    </div>
+
+    <!-- Layer 2: Strategy -->
+    <div class="stack-layer reveal">
+      <div class="stack-layer-number">2</div>
+      <h3 class="stack-layer-title">Strategy</h3>
+      <p class="stack-layer-subtitle">Shaping insight into direction without forcing outcome</p>
+      <ul class="stack-principles">
+        <li>Strategy is a container, not a cage</li>
+        <li>Hold direction loosely — the river finds its own path</li>
+        <li>What you choose not to do defines you more than what you do</li>
+      </ul>
+      <div class="stack-warning">
+        <span class="warn-icon">⚠</span>
+        <span>Strategy without moral intelligence becomes manipulation.</span>
+      </div>
+    </div>
+
+    <!-- Layer 3: Taste -->
+    <div class="stack-layer reveal">
+      <div class="stack-layer-number">3</div>
+      <h3 class="stack-layer-title">Taste</h3>
+      <p class="stack-layer-subtitle">The felt sense of what belongs — aesthetic discernment</p>
+      <ul class="stack-principles">
+        <li>Taste is not preference — it's pattern recognition of harmony</li>
+        <li>Quality is care made visible</li>
+        <li>Every detail is a decision about what matters</li>
+      </ul>
+      <div class="stack-warning">
+        <span class="warn-icon">⚠</span>
+        <span>Taste without humility becomes gatekeeping. Stay porous.</span>
+      </div>
+    </div>
+
+    <!-- Layer 4: Technology -->
+    <div class="stack-layer reveal">
+      <div class="stack-layer-number">4</div>
+      <h3 class="stack-layer-title">Technology</h3>
+      <p class="stack-layer-subtitle">The servant layer — powerful, never sovereign</p>
+      <ul class="stack-principles">
+        <li>Technology amplifies intention — check the intention first</li>
+        <li>Build tools that make people more human, not less</li>
+        <li>The best technology disappears into the life it serves</li>
+        <li>Technology never decides</li>
+      </ul>
+      <div class="stack-warning">
+        <span class="warn-icon">⚠</span>
+        <span>Technology placed above taste or strategy will optimize for the wrong summit.</span>
+      </div>
+    </div>
+
+    <!-- Layer 5: Earth / Reality -->
+    <div class="stack-layer reveal">
+      <div class="stack-layer-number">5</div>
+      <h3 class="stack-layer-title">Earth / Reality</h3>
+      <p class="stack-layer-subtitle">The ground truth — where all intelligence is tested</p>
+      <ul class="stack-principles">
+        <li>Earth is the final judge — not the market, not the mind</li>
+        <li>What doesn't root, dies. What roots too rigidly, breaks.</li>
+        <li>Reality has veto power over every beautiful theory</li>
+      </ul>
+      <div class="stack-warning">
+        <span class="warn-icon">⚠</span>
+        <span>Ignoring earth's feedback is the oldest and most expensive mistake.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Leaf Divider -->
+<div class="leaf-divider reveal">
+  <svg viewBox="0 0 320 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 20 Q80 5 160 20 Q240 35 300 20" stroke="#3a7233" stroke-width="0.8" fill="none"/>
+    <path d="M60 20 Q120 10 160 20 Q200 30 260 20" stroke="#3a7233" stroke-width="0.5" fill="none"/>
+    <path d="M100 20 Q130 15 160 20 Q190 25 220 20" stroke="#3a7233" stroke-width="0.5" fill="none"/>
+    <line x1="160" y1="8" x2="160" y2="32" stroke="#3a7233" stroke-width="0.4"/>
+    <circle cx="160" cy="20" r="2" fill="#3a7233" opacity="0.5"/>
+  </svg>
+</div>
+
+<!-- ═══════════════════════════════════════
+     HUMAN CELL / AGENT CELL
+     ═══════════════════════════════════════ -->
+<section id="cells">
+  <div class="topo-bg"></div>
+  <div class="cells-container">
+    <div class="section-header reveal">
+      <p class="section-label">Two-Cell Architecture</p>
+      <h2 class="section-title">Who Decides, Who Attends</h2>
+    </div>
+
+    <div class="cell-toggle reveal">
+      <div class="cell-toggle-track">
+        <button class="cell-toggle-btn active" data-panel="human">Human Cell</button>
+        <button class="cell-toggle-btn" data-panel="agent">Agent Cell</button>
+      </div>
+    </div>
+
+    <div class="cell-panels">
+      <!-- Human Cell -->
+      <div class="cell-panel human-cell active" id="panel-human">
+        <div class="cell-nodes">
+          <div class="cell-node reveal reveal-delay-1">
+            <div class="node-pulse">🔭</div>
+            <h4 class="node-name">Steward</h4>
+            <p class="node-desc">Holds the long view. Tends the vision across seasons and setbacks. Asks: what are we really building?</p>
+          </div>
+          <div class="cell-node reveal reveal-delay-2">
+            <div class="node-pulse">🔩</div>
+            <h4 class="node-name">Systems Misfit</h4>
+            <p class="node-desc">Sees what doesn't fit. Notices the friction between intention and reality. The necessary discomfort.</p>
+          </div>
+          <div class="cell-node reveal reveal-delay-3">
+            <div class="node-pulse">👂</div>
+            <h4 class="node-name">Culture Listener</h4>
+            <p class="node-desc">Reads the room — the unspoken currents, the emerging mood, the stories people tell themselves.</p>
+          </div>
+        </div>
+        <div class="cell-memory-thread reveal reveal-delay-4">
+          Humans decide. Humans hold responsibility. Humans carry the weight of consequence.
+        </div>
+      </div>
+
+      <!-- Agent Cell -->
+      <div class="cell-panel agent-cell" id="panel-agent">
+        <div class="cell-nodes">
+          <div class="cell-node">
+            <div class="node-pulse">👁</div>
+            <h4 class="node-name">Observation</h4>
+            <p class="node-desc">Watches without judging. Gathers signals from all five intelligences.</p>
+          </div>
+          <div class="cell-node">
+            <div class="node-pulse">🔗</div>
+            <h4 class="node-name">Pattern</h4>
+            <p class="node-desc">Finds connections, resonances, and recurring shapes in the data.</p>
+          </div>
+          <div class="cell-node">
+            <div class="node-pulse">📝</div>
+            <h4 class="node-name">Documentation</h4>
+            <p class="node-desc">Records what happened, what was decided, what was felt.</p>
+          </div>
+          <div class="cell-node">
+            <div class="node-pulse">📅</div>
+            <h4 class="node-name">Calendar</h4>
+            <p class="node-desc">Keeps temporal intelligence alive. Seasons, cycles, deadlines, long arcs.</p>
+          </div>
+          <div class="cell-node">
+            <div class="node-pulse">🌿</div>
+            <h4 class="node-name">Scenario</h4>
+            <p class="node-desc">Models futures. What if this? What then? Explores without committing.</p>
+          </div>
+        </div>
+        <div class="cell-memory-thread">
+          Connected by shared long-term memory — agents attend, but never decide.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FEEDBACK LOOP
+     ═══════════════════════════════════════ -->
+<section id="feedback">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">The Eternal Return</p>
+      <h2 class="section-title">Earth Answers Back</h2>
+    </div>
+
+    <div class="feedback-cycle reveal">
+      <div class="cycle-ring"></div>
+      <div class="cycle-nodes">
+        <div class="cycle-node">
+          <div class="cycle-node-icon">✦</div>
+          <span>Cosmos</span>
+        </div>
+        <div class="cycle-node">
+          <div class="cycle-node-icon">👤</div>
+          <span>Humans</span>
+        </div>
+        <div class="cycle-node">
+          <div class="cycle-node-icon">🌍</div>
+          <span>Earth</span>
+        </div>
+        <div class="cycle-node">
+          <div class="cycle-node-icon">🌱</div>
+          <span>Nature</span>
+        </div>
+      </div>
+      <div class="cycle-center">
+        <div class="cycle-center-icon">∞</div>
+        <div class="cycle-center-text">always cycling</div>
+      </div>
+    </div>
+
+    <p class="feedback-maxim reveal">
+      Earth is the final judge — not the market, not the mind.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════ -->
+<footer id="footer">
+  <a href="#hero" class="return-btn" id="return-to-cosmos">
+    <span class="arrow-up">↑</span>
+    Return to Cosmos
+  </a>
+  <div class="footer-credits">
+    <p>Ṛta Intelligence Framework</p>
+    <p>Technology serves. Earth judges. Wisdom takes time.</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ═══════════════════════════════════════
+     PARTICLE CANVAS — Hero Stream
+     ═══════════════════════════════════════ */
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let animFrame;
+  let scrollY = 0;
+  let canvasW, canvasH;
+
+  const PARTICLE_COLORS = [
+    { r: 90, g: 154, b: 80 },   // green — natural
+    { r: 212, g: 165, b: 90 },  // gold — human
+    { r: 90, g: 158, b: 190 },  // blue — sensor
+    { r: 220, g: 216, b: 208 }, // white — wisdom
+    { r: 0, g: 200, b: 175 },   // cyan — attention
+  ];
+
+  function resizeCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvasW = canvas.clientWidth;
+    canvasH = canvas.clientHeight;
+    canvas.width = canvasW * dpr;
+    canvas.height = canvasH * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function createParticles() {
+    const count = Math.min(Math.floor(canvasW * canvasH / 3500), 300);
+    particles = [];
+    for (let i = 0; i < count; i++) {
+      const colorIndex = Math.floor(Math.random() * PARTICLE_COLORS.length);
+      const c = PARTICLE_COLORS[colorIndex];
+      particles.push({
+        x: Math.random() * canvasW,
+        y: Math.random() * canvasH,
+        baseY: Math.random() * canvasH,
+        radius: Math.random() * 2 + 0.5,
+        speed: Math.random() * 0.3 + 0.1,
+        amplitude: Math.random() * 60 + 20,
+        phase: Math.random() * Math.PI * 2,
+        phaseSpeed: Math.random() * 0.008 + 0.003,
+        drift: (Math.random() - 0.5) * 0.3,
+        color: c,
+        alpha: Math.random() * 0.4 + 0.15,
+      });
+    }
+  }
+
+  function drawParticles(time) {
+    ctx.clearRect(0, 0, canvasW, canvasH);
+
+    const scrollFactor = Math.min(scrollY / canvasH, 1);
+    const waveShift = scrollFactor * 0.5;
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+
+      p.phase += p.phaseSpeed;
+      p.x += p.drift;
+      p.y = p.baseY + Math.sin(p.phase + waveShift) * p.amplitude;
+
+      // Wrap around
+      if (p.x < -10) p.x = canvasW + 10;
+      if (p.x > canvasW + 10) p.x = -10;
+
+      // Fade particles near edges
+      const edgeFadeX = Math.min(p.x / 80, (canvasW - p.x) / 80, 1);
+      const edgeFadeY = Math.min(p.y / 80, (canvasH - p.y) / 80, 1);
+      const edgeFade = Math.max(0, Math.min(edgeFadeX, edgeFadeY));
+
+      const alpha = p.alpha * edgeFade * (1 - scrollFactor * 0.6);
+
+      if (alpha < 0.01) continue;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},${alpha})`;
+      ctx.fill();
+
+      // Glow for larger particles
+      if (p.radius > 1.5) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius * 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},${alpha * 0.1})`;
+        ctx.fill();
+      }
+    }
+
+    // Draw faint connecting lines between nearby particles
+    ctx.lineWidth = 0.3;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = dx * dx + dy * dy;
+        if (dist < 4000) {
+          const lineAlpha = (1 - dist / 4000) * 0.08 * (1 - scrollFactor * 0.6);
+          if (lineAlpha < 0.005) continue;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(0, 229, 199, ${lineAlpha})`;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animateCanvas(time) {
+    drawParticles(time);
+    animFrame = requestAnimationFrame(animateCanvas);
+  }
+
+  function initCanvas() {
+    resizeCanvas();
+    createParticles();
+    if (!prefersReducedMotion) {
+      animateCanvas(0);
+    } else {
+      drawParticles(0);
+    }
+  }
+
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    createParticles();
+  });
+
+  window.addEventListener('scroll', () => {
+    scrollY = window.pageYOffset || document.documentElement.scrollTop;
+  }, { passive: true });
+
+  initCanvas();
+
+  /* ═══════════════════════════════════════
+     STAT COUNTER ANIMATION
+     ═══════════════════════════════════════ */
+  function animateStats() {
+    const statValues = document.querySelectorAll('.stat-value');
+    statValues.forEach(el => {
+      const target = el.dataset.target;
+      if (target === '∞') {
+        el.textContent = '∞';
+        return;
+      }
+      const targetNum = parseInt(target, 10);
+      if (isNaN(targetNum)) return;
+      let current = 0;
+      const duration = 1500;
+      const start = performance.now();
+
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        current = Math.round(eased * targetNum);
+        el.textContent = current;
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      if (!prefersReducedMotion) {
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = target;
+      }
+    });
+  }
+
+  // Start stat animation after hero loads
+  setTimeout(animateStats, 1200);
+
+  /* ═══════════════════════════════════════
+     SCROLL REVEAL — IntersectionObserver
+     ═══════════════════════════════════════ */
+  const reveals = document.querySelectorAll('.reveal');
+  if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    reveals.forEach(el => observer.observe(el));
+  } else {
+    // Show everything immediately if reduced motion or no IO
+    reveals.forEach(el => el.classList.add('visible'));
+  }
+
+  /* ═══════════════════════════════════════
+     INTEL CARDS — Click toggle on mobile
+     ═══════════════════════════════════════ */
+  const intelCards = document.querySelectorAll('.intel-card');
+  intelCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const wasActive = card.classList.contains('active');
+      intelCards.forEach(c => c.classList.remove('active'));
+      if (!wasActive) card.classList.add('active');
+    });
+  });
+
+  /* ═══════════════════════════════════════
+     CELL TOGGLE — Human / Agent switch
+     ═══════════════════════════════════════ */
+  const toggleBtns = document.querySelectorAll('.cell-toggle-btn');
+  const panels = document.querySelectorAll('.cell-panel');
+
+  toggleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.panel;
+      toggleBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      panels.forEach(p => p.classList.remove('active'));
+      const targetPanel = document.getElementById('panel-' + target);
+      if (targetPanel) targetPanel.classList.add('active');
+
+      // Re-trigger reveals in the new panel
+      const newReveals = targetPanel.querySelectorAll('.reveal');
+      newReveals.forEach(el => {
+        el.classList.remove('visible');
+        void el.offsetWidth; // force reflow
+        el.classList.add('visible');
+      });
+    });
+  });
+
+  /* ═══════════════════════════════════════
+     RETURN TO COSMOS — smooth scroll
+     ═══════════════════════════════════════ */
+  document.getElementById('return-to-cosmos').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+})();
+</script>
+</body>
+</html>
