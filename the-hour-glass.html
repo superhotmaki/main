@@ -449,10 +449,16 @@ hr {
 }
 
 .editorial-visual {
-  max-width: var(--content-width);
-  margin: 5rem auto 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-top: 5rem;
   position: relative;
   overflow: hidden;
+}
+
+.portrait-hero {
+  height: 80vh;
+  min-height: 500px;
 }
 
 .media-placeholder {
@@ -501,6 +507,7 @@ hr {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 15%;
   z-index: 1;
 }
 
@@ -1275,10 +1282,10 @@ hr {
       <p class="quote-attribution reveal reveal-slow stagger-1">&mdash; Michael Tay, Group Managing Director</p>
 
       <div class="editorial-visual reveal stagger-2">
-        <div class="media-placeholder aspect-16-9">
+        <div class="media-placeholder portrait-hero">
           <div class="placeholder-pulse"></div>
-          <span class="placeholder-label">Video: The Hour Glass boutique interior or watch macro</span>
-          <video src="/videos/thg-editorial.mp4" poster="/videos/thg-editorial-poster.jpg" autoplay muted loop playsinline></video>
+          <span class="placeholder-label">Portrait: Michael Tay, Group Managing Director</span>
+          <img src="/images/michael-tay-portrait.jpg" alt="Michael Tay, Group Managing Director of The Hour Glass" loading="eager">
         </div>
       </div>
 
