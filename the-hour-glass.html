@@ -372,12 +372,15 @@ hr {
   justify-content: flex-end;
   padding: 0 2rem 8rem;
   position: relative;
+  overflow: hidden;
 }
 
 .hero-content {
   max-width: var(--content-width);
   width: 100%;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-rule {
@@ -416,6 +419,33 @@ hr {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+.hero-video-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.hero-video-bg iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 56.25vw;
+  min-height: 100vh;
+  min-width: 177.78vh;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 /* =========================================
@@ -613,6 +643,47 @@ hr {
 .position-quote .quote-attribution {
   color: var(--muted);
   margin-top: 1.5rem;
+}
+
+.position-quote-visual {
+  grid-column: 1 / -1;
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 8rem 2rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.position-quote-visual img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.position-quote-visual .quote-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+.position-quote-visual .pull-quote {
+  color: var(--off-white);
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.position-quote-visual .quote-attribution {
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 2;
 }
 
 /* =========================================
@@ -1287,6 +1358,10 @@ hr {
        SECTION II — HERO
        ========================================= -->
   <section class="hero" id="hero">
+    <div class="hero-video-bg">
+      <iframe src="https://www.youtube.com/embed/kPYsCBYL_BQ?autoplay=1&mute=1&loop=1&playlist=kPYsCBYL_BQ&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1 class="headline-hero">
         <span class="word-mask"><span class="word">The</span></span>
@@ -1295,9 +1370,6 @@ hr {
       </h1>
       <div class="hero-rule"></div>
       <p class="hero-subtitle">A strategic perspective on what comes next.</p>
-    </div>
-    <div class="hero-footer">
-      <span>Crafted for Hourglass &mdash; Confidential &mdash; February 2026</span>
     </div>
   </section>
 
@@ -1311,15 +1383,7 @@ hr {
       </blockquote>
       <p class="quote-attribution reveal reveal-slow stagger-1">&mdash; Michael Tay, Group Managing Director</p>
 
-      <div class="editorial-visual reveal stagger-2">
-        <div class="media-placeholder aspect-16-9">
-          <div class="placeholder-pulse"></div>
-          <span class="placeholder-label">Video: The Hour Glass boutique interior or watch macro</span>
-          <video src="/videos/thg-editorial.mp4" poster="/videos/thg-editorial-poster.jpg" autoplay muted loop playsinline></video>
-        </div>
-      </div>
-
-      <p class="context-line reveal stagger-3">The Hour Glass. Founded 1979. 70+ boutiques across Asia-Pacific.</p>
+      <p class="context-line reveal stagger-2">The Hour Glass. Founded 1979. 70+ boutiques across Asia-Pacific.</p>
     </div>
   </section>
 
@@ -1413,7 +1477,9 @@ hr {
         </div>
 
         <!-- Pull-quote spanning both columns -->
-        <div class="position-quote reveal">
+        <div class="position-quote-visual reveal">
+          <img src="https://dam.mediacorp.sg/image/upload/s--uYMY2UIp--/c_fill,g_auto,h_676,w_1200/f_auto,q_auto/michael-tay---the-hour-glass-hero.jpg?itok=8fkeC1jf" alt="Michael Tay" loading="lazy">
+          <div class="quote-overlay"></div>
           <blockquote class="pull-quote">&ldquo;It is more a hub for enthusiasts to gather than a store designed to ensure a commercially focused outcome.&rdquo;</blockquote>
           <p class="quote-attribution">&mdash; Michael Tay</p>
         </div>
