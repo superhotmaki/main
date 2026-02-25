@@ -1672,6 +1672,7 @@ hr {
           <div class="media-placeholder aspect-16-9">
             <div class="placeholder-pulse"></div>
             <span class="placeholder-label">AKQA &mdash; ECCO composable commerce</span>
+            <img src="https://image.thum.io/get/width/800/crop/450/noanimate/https://www.akqa.com/work/ecco/make-the-everyday-aspirational/" alt="AKQA ECCO case study" loading="lazy">
           </div>
           <p class="column-title">Experience Strategy and Design</p>
           <p class="column-desc">Map the end-to-end collector journey. Identify the highest-value moments &mdash; discovery, acquisition, ownership, advocacy &mdash; and design the digital layer around them.</p>
@@ -1683,6 +1684,7 @@ hr {
           <div class="media-placeholder aspect-16-9">
             <div class="placeholder-pulse"></div>
             <span class="placeholder-label">AKQA &mdash; Generative Store with Google</span>
+            <img src="https://image.thum.io/get/width/800/crop/450/noanimate/https://www.akqa.com/work/google/bringing-emotion-and-intuition-back-to-online-shopping/" alt="AKQA Generative Store case study" loading="lazy">
           </div>
           <p class="column-title">Connected Commerce Platform</p>
           <p class="column-desc">Build the infrastructure that unifies 70+ boutiques into one relationship. Appointment booking, virtual consultations, allocation management, collection tracking.</p>
@@ -1694,6 +1696,7 @@ hr {
           <div class="media-placeholder aspect-16-9">
             <div class="placeholder-pulse"></div>
             <span class="placeholder-label">AKQA &mdash; Georg Jensen luxury retail</span>
+            <img src="https://image.thum.io/get/width/800/crop/450/noanimate/https://www.akqa.com/work/georg-jensen/the-futures-in-store/" alt="AKQA Georg Jensen case study" loading="lazy">
           </div>
           <p class="column-title">AI and Data Intelligence</p>
           <p class="column-desc">Deploy AI-powered clienteling across every boutique advisor. Unified client profiles, cross-market insights, next-best-action. Four Seasons service at scale.</p>
@@ -1706,6 +1709,7 @@ hr {
         <div class="media-placeholder aspect-21-9">
           <div class="placeholder-pulse"></div>
           <span class="placeholder-label">AKQA &mdash; Generative Store full experience</span>
+          <img src="https://image.thum.io/get/width/1200/crop/500/noanimate/https://www.akqa.com/work/google/bringing-emotion-and-intuition-back-to-online-shopping/" alt="AKQA Generative Store full experience" loading="lazy">
         </div>
         <p class="featured-title">The Generative Store</p>
         <p class="featured-desc">Commerce rebuilt from first principles. Every store assembled in the moment of need &mdash; drawing from brand heritage, design systems, and real-time visitor context. Copy, imagery, and narrative adapt to each individual. Not a chatbot. A fully realised boutique experience at global scale. Built with Google Gemini.</p>
@@ -2112,6 +2116,23 @@ hr {
         this.style.display = 'none';
       });
       // Handle already-cached images
+      if (img.complete && img.naturalWidth > 0) {
+        img.dispatchEvent(new Event('load'));
+      }
+    });
+
+    // Case study image load handlers
+    document.querySelectorAll('.media-placeholder img').forEach(function(img) {
+      img.addEventListener('load', function() {
+        this.style.zIndex = '3';
+        var label = this.parentElement.querySelector('.placeholder-label');
+        var pulse = this.parentElement.querySelector('.placeholder-pulse');
+        if (label) label.style.display = 'none';
+        if (pulse) pulse.style.display = 'none';
+      });
+      img.addEventListener('error', function() {
+        this.style.display = 'none';
+      });
       if (img.complete && img.naturalWidth > 0) {
         img.dispatchEvent(new Event('load'));
       }
