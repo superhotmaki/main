@@ -890,6 +890,19 @@ hr {
   line-height: 1.5;
 }
 
+.column-ref a,
+.featured-case a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 300ms ease;
+}
+
+.column-ref a:hover,
+.featured-case a:hover {
+  color: var(--off-white);
+}
+
 /* Generative Store featured row */
 .featured-case {
   margin-top: 5rem;
@@ -1097,12 +1110,36 @@ hr {
    ========================================= */
 .site-footer {
   background: var(--black);
-  padding: 3rem 2rem;
+  padding: 3rem 2rem 4rem;
   text-align: center;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .footer-text {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Persistent sticky footer */
+.persistent-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 0.75rem 2rem;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 50;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.persistent-footer span {
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 0.6875rem;
@@ -1260,7 +1297,7 @@ hr {
       <p class="hero-subtitle">A strategic perspective on what comes next.</p>
     </div>
     <div class="hero-footer">
-      <span>AKQA &mdash; Confidential &mdash; February 2026</span>
+      <span>Crafted for Hourglass &mdash; Confidential &mdash; February 2026</span>
     </div>
   </section>
 
@@ -1634,36 +1671,33 @@ hr {
         <div class="akqa-column reveal stagger-2">
           <div class="media-placeholder aspect-16-9">
             <div class="placeholder-pulse"></div>
-            <span class="placeholder-label">Video: AKQA case study &mdash; Experience design</span>
-            <video src="/case-studies/experience-strategy.mp4" poster="/case-studies/experience-strategy.jpg" autoplay muted loop playsinline></video>
+            <span class="placeholder-label">AKQA &mdash; ECCO composable commerce</span>
           </div>
           <p class="column-title">Experience Strategy and Design</p>
           <p class="column-desc">Map the end-to-end collector journey. Identify the highest-value moments &mdash; discovery, acquisition, ownership, advocacy &mdash; and design the digital layer around them.</p>
-          <p class="column-ref">Reference: ECCO &mdash; six-year composable commerce transformation.</p>
+          <p class="column-ref">Reference: <a href="https://www.akqa.com/work/ecco/make-the-everyday-aspirational/" target="_blank" rel="noopener">ECCO &mdash; six-year composable commerce transformation.</a></p>
         </div>
 
         <!-- Column II -->
         <div class="akqa-column reveal stagger-3">
           <div class="media-placeholder aspect-16-9">
             <div class="placeholder-pulse"></div>
-            <span class="placeholder-label">Video: AKQA case study &mdash; Generative Store</span>
-            <video src="/case-studies/generative-store.mp4" poster="/case-studies/generative-store.jpg" autoplay muted loop playsinline></video>
+            <span class="placeholder-label">AKQA &mdash; Generative Store with Google</span>
           </div>
           <p class="column-title">Connected Commerce Platform</p>
           <p class="column-desc">Build the infrastructure that unifies 70+ boutiques into one relationship. Appointment booking, virtual consultations, allocation management, collection tracking.</p>
-          <p class="column-ref">Reference: Generative Store &mdash; with Google Gemini. Commerce as relationship, not transaction.</p>
+          <p class="column-ref">Reference: <a href="https://www.akqa.com/work/google/bringing-emotion-and-intuition-back-to-online-shopping/" target="_blank" rel="noopener">Generative Store &mdash; with Google Gemini. Commerce as relationship, not transaction.</a></p>
         </div>
 
         <!-- Column III -->
         <div class="akqa-column reveal stagger-4">
           <div class="media-placeholder aspect-16-9">
             <div class="placeholder-pulse"></div>
-            <span class="placeholder-label">Video: AKQA case study &mdash; AI clienteling</span>
-            <video src="/case-studies/ai-intelligence.mp4" poster="/case-studies/ai-intelligence.jpg" autoplay muted loop playsinline></video>
+            <span class="placeholder-label">AKQA &mdash; Georg Jensen luxury retail</span>
           </div>
           <p class="column-title">AI and Data Intelligence</p>
           <p class="column-desc">Deploy AI-powered clienteling across every boutique advisor. Unified client profiles, cross-market insights, next-best-action. Four Seasons service at scale.</p>
-          <p class="column-ref">Reference: Blockchain provenance with Louis Vuitton and Loro Piana.</p>
+          <p class="column-ref">Reference: <a href="https://www.akqa.com/work/georg-jensen/the-futures-in-store/" target="_blank" rel="noopener">Georg Jensen &mdash; physical-digital luxury retail experience.</a></p>
         </div>
       </div>
 
@@ -1671,8 +1705,7 @@ hr {
       <div class="featured-case reveal">
         <div class="media-placeholder aspect-21-9">
           <div class="placeholder-pulse"></div>
-          <span class="placeholder-label">Video: AKQA Generative Store &mdash; Full product experience</span>
-          <video src="/case-studies/generative-store-hero.mp4" poster="/case-studies/generative-store-hero.jpg" autoplay muted loop playsinline></video>
+          <span class="placeholder-label">AKQA &mdash; Generative Store full experience</span>
         </div>
         <p class="featured-title">The Generative Store</p>
         <p class="featured-desc">Commerce rebuilt from first principles. Every store assembled in the moment of need &mdash; drawing from brand heritage, design systems, and real-time visitor context. Copy, imagery, and narrative adapt to each individual. Not a chatbot. A fully realised boutique experience at global scale. Built with Google Gemini.</p>
@@ -1693,21 +1726,21 @@ hr {
           <p class="stat-number" data-count-text="+8–12%">+8–12%</p>
           <div class="stat-divider"></div>
           <p class="stat-label">Digital-influenced revenue</p>
-          <p class="outcome-note">~S$93M–S$139M incremental over base. From near-zero digital share to meaningful omnichannel contribution.</p>
+          <p class="outcome-note">~S$94M–S$142M incremental over base. From near-zero digital share to meaningful omnichannel contribution.</p>
         </div>
 
         <div class="outcome-item reveal stagger-2" data-layer="retention">
           <p class="stat-number" data-count-text="+12–18%">+12–18%</p>
           <div class="stat-divider"></div>
           <p class="stat-label">Client retention</p>
-          <p class="outcome-note">~S$35M–S$52M retained annually. Unified profiles, proactive outreach, cross-market continuity.</p>
+          <p class="outcome-note">~S$42M–S$64M retained annually. Unified profiles, proactive outreach, cross-market continuity.</p>
         </div>
 
         <div class="outcome-item reveal stagger-3" data-layer="crosssell">
           <p class="stat-number" data-count-text="+15–20%">+15–20%</p>
           <div class="stat-divider"></div>
           <p class="stat-label">Cross-sell conversion</p>
-          <p class="outcome-note">~S$23M–S$35M incremental. The right watch, the right client, the right moment.</p>
+          <p class="outcome-note">~S$27M–S$35M incremental. The right watch, the right client, the right moment.</p>
         </div>
 
         <div class="outcome-item reveal stagger-4" data-layer="content">
@@ -1728,7 +1761,7 @@ hr {
           <p class="stat-number" data-count-text="+10–15%">+10–15%</p>
           <div class="stat-divider"></div>
           <p class="stat-label">Staff productivity</p>
-          <p class="outcome-note">~S$8M–S$12M in efficiency gains. Intelligent tools free time for relationships.</p>
+          <p class="outcome-note">~S$8M–S$14M in efficiency gains. Intelligent tools free time for relationships.</p>
         </div>
       </div>
 
@@ -1752,7 +1785,7 @@ hr {
 
         <div class="chart-total" id="chart-total">
           <span class="chart-total-label">Year 5 projected total:</span>
-          <span class="chart-total-value" id="chart-total-value">S$318M</span>
+          <span class="chart-total-value" id="chart-total-value">S$345M</span>
         </div>
       </div>
     </div>
@@ -1771,10 +1804,15 @@ hr {
        SECTION XIII — FOOTER
        ========================================= -->
   <footer class="site-footer">
-    <p class="footer-text">AKQA &mdash; Confidential &mdash; 2026</p>
+    <p class="footer-text">Crafted for Hourglass &mdash; Confidential &mdash; February 2026</p>
   </footer>
 
 </div><!-- end #main-content -->
+
+<!-- Persistent sticky footer -->
+<div class="persistent-footer">
+  <span>Crafted for Hourglass &mdash; Confidential &mdash; February 2026</span>
+</div>
 
 <!-- =========================================
      JAVASCRIPT
@@ -2060,6 +2098,24 @@ hr {
     }, { passive: true });
 
     goToFrame(0);
+
+    // Fix screenshot loading: show images above placeholders when loaded
+    document.querySelectorAll('.frame-card-screenshot img').forEach(function(img) {
+      img.addEventListener('load', function() {
+        this.style.zIndex = '3';
+        var label = this.parentElement.querySelector('.placeholder-label');
+        var pulse = this.parentElement.querySelector('.placeholder-pulse');
+        if (label) label.style.display = 'none';
+        if (pulse) pulse.style.display = 'none';
+      });
+      img.addEventListener('error', function() {
+        this.style.display = 'none';
+      });
+      // Handle already-cached images
+      if (img.complete && img.naturalWidth > 0) {
+        img.dispatchEvent(new Event('load'));
+      }
+    });
   }
 
   /* =========================================
@@ -2074,12 +2130,12 @@ hr {
 
     // Data: cumulative S$ millions per year for each layer
     var layerData = {
-      digital:      [25, 55, 90, 120, 145],
-      retention:    [10, 25, 40, 50, 55],
-      crosssell:    [8, 18, 30, 38, 42],
+      digital:      [26, 58, 96, 128, 152],
+      retention:    [14, 34, 52, 62, 70],
+      crosssell:    [10, 22, 32, 38, 44],
       content:      [3, 8, 15, 22, 28],
       cpo:          [0, 5, 15, 22, 28],
-      productivity: [5, 10, 15, 18, 20]
+      productivity: [5, 10, 16, 20, 23]
     };
 
     var layerColors = {
