@@ -834,16 +834,15 @@ hr {
    SECTIONS VIII & IX — PRESSURES & OPENINGS
    ========================================= */
 .numbered-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
   margin-top: 4rem;
 }
 
 .numbered-item {
-  padding: 2.5rem 0;
-  border-bottom: 1px solid var(--divider);
-}
-
-.numbered-item:first-child {
-  border-top: 1px solid var(--divider);
+  padding: 2rem;
+  border: 1px solid var(--divider);
 }
 
 .numbered-item .numeral {
@@ -1176,6 +1175,10 @@ hr {
   }
 
   .outcomes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .numbered-list {
     grid-template-columns: 1fr;
   }
 
@@ -1649,8 +1652,6 @@ hr {
         <!-- Column I -->
         <div class="akqa-column reveal stagger-2">
           <div class="media-placeholder aspect-16-9">
-            <div class="placeholder-pulse"></div>
-            <span class="placeholder-label">Video: AKQA case study &mdash; Dior</span>
             <video src="https://videos.ctfassets.net/feazk3r7m969/3EFaQOlo8U3ggLVAxgbhi1/694a9eb90cc530a32c60b4678b51070d/End-page-video.mp4" autoplay muted loop playsinline></video>
           </div>
           <p class="column-title">Experience Strategy and Design</p>
@@ -1661,11 +1662,7 @@ hr {
         <!-- Column II -->
         <div class="akqa-column reveal stagger-3">
           <div class="media-placeholder aspect-16-9">
-            <div class="placeholder-pulse"></div>
-            <span class="placeholder-label">Image: AKQA case study &mdash; TAG Heuer</span>
-            <a href="https://www.akqa.com/work/tag-heuer/connected-modular-45/" target="_blank" rel="noopener">
-              <img src="https://images.ctfassets.net/feazk3r7m969/652SMddpEO9N9c54sd8uRP/fc2e069617bcd69d9a8578279f3673fd/LV_COLLECTION-SILHOUETTE.png?w=1440&fm=webp" alt="TAG Heuer Connected Modular 45" loading="lazy">
-            </a>
+            <img src="https://images.ctfassets.net/feazk3r7m969/652SMddpEO9N9c54sd8uRP/fc2e069617bcd69d9a8578279f3673fd/LV_COLLECTION-SILHOUETTE.png?w=1440&fm=webp" alt="TAG Heuer Connected Modular 45" loading="lazy">
           </div>
           <p class="column-title">Connected Commerce Platform</p>
           <p class="column-desc">Build the infrastructure that unifies 70+ boutiques into one relationship. Appointment booking, virtual consultations, allocation management, collection tracking.</p>
@@ -1675,8 +1672,6 @@ hr {
         <!-- Column III -->
         <div class="akqa-column reveal stagger-4">
           <div class="media-placeholder aspect-16-9">
-            <div class="placeholder-pulse"></div>
-            <span class="placeholder-label">Image: AKQA case study &mdash; Louis Vuitton</span>
             <img src="https://images.ctfassets.net/feazk3r7m969/6NpDgrMO1K7hQFwmOH5FyA/dfd3e671e93b7d3b69c45b5eb1d02836/LV-GRID-STATIC.png?w=1440&fm=webp" alt="Louis Vuitton" loading="lazy">
           </div>
           <p class="column-title">AI and Data Intelligence</p>
@@ -1688,8 +1683,6 @@ hr {
       <!-- Featured: Generative Store -->
       <div class="featured-case reveal">
         <div class="media-placeholder aspect-21-9">
-          <div class="placeholder-pulse"></div>
-          <span class="placeholder-label">Video: AKQA Generative Store &mdash; Full product experience</span>
           <video src="https://videos.ctfassets.net/feazk3r7m969/1NAuobk9zjDiqrXdZBYB8Q/29abd1326ef98054855f7c7a9ae9dc9e/Google-UX.mp4" autoplay muted loop playsinline></video>
         </div>
         <p class="featured-title">The Generative Store</p>
