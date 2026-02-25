@@ -423,7 +423,7 @@ hr {
    ========================================= */
 .quote-section {
   background: var(--black);
-  padding: 8rem 2rem;
+  padding: 0;
 }
 
 .quote-text {
@@ -434,8 +434,6 @@ hr {
   line-height: 1.35;
   color: var(--off-white);
   text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
 .quote-attribution {
@@ -444,14 +442,12 @@ hr {
   font-size: 0.8125rem;
   color: var(--muted);
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 1rem;
   letter-spacing: 0.04em;
 }
 
 .editorial-visual {
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  margin-top: 5rem;
+  width: 100%;
   position: relative;
   overflow: hidden;
 }
@@ -459,6 +455,18 @@ hr {
 .portrait-hero {
   height: 80vh;
   min-height: 500px;
+}
+
+.quote-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 3;
+  width: 100%;
+  max-width: 800px;
+  padding: 0 2rem;
 }
 
 .media-placeholder {
@@ -1189,7 +1197,7 @@ hr {
   }
 
   .quote-section {
-    padding: 5rem 2rem;
+    padding: 0;
   }
 }
 
@@ -1275,20 +1283,21 @@ hr {
        SECTION III — MICHAEL TAY QUOTE
        ========================================= -->
   <section class="quote-section" id="quote">
-    <div class="content-wrap">
-      <blockquote class="quote-text reveal reveal-slow">
-        &ldquo;True luxury can only exist in authenticity.&rdquo;
-      </blockquote>
-      <p class="quote-attribution reveal reveal-slow stagger-1">&mdash; Michael Tay, Group Managing Director</p>
-
-      <div class="editorial-visual reveal stagger-2">
-        <div class="media-placeholder portrait-hero">
-          <div class="placeholder-pulse"></div>
-          <span class="placeholder-label">Portrait: Michael Tay, Group Managing Director</span>
-          <img src="/images/michael-tay-portrait.jpg" alt="Michael Tay, Group Managing Director of The Hour Glass" loading="eager">
+    <div class="editorial-visual reveal">
+      <div class="media-placeholder portrait-hero">
+        <div class="placeholder-pulse"></div>
+        <span class="placeholder-label">Portrait: Michael Tay, Group Managing Director</span>
+        <img src="/images/michael-tay-portrait.jpg" alt="Michael Tay, Group Managing Director of The Hour Glass" loading="eager">
+        <div class="quote-overlay">
+          <blockquote class="quote-text reveal reveal-slow">
+            &ldquo;True luxury can only exist in authenticity.&rdquo;
+          </blockquote>
+          <p class="quote-attribution reveal reveal-slow stagger-1">&mdash; Michael Tay, Group Managing Director</p>
         </div>
       </div>
+    </div>
 
+    <div class="content-wrap">
       <p class="context-line reveal stagger-3">The Hour Glass. Founded 1979. 70+ boutiques across Asia-Pacific.</p>
     </div>
   </section>
