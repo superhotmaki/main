@@ -370,7 +370,7 @@ hr {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 0 2rem 4rem;
+  padding: 0 2rem 8rem;
   position: relative;
 }
 
@@ -398,6 +398,7 @@ hr {
   font-size: clamp(1.125rem, 2vw, 1.375rem);
   color: var(--muted);
   line-height: 1.5;
+  margin-bottom: 3rem;
 }
 
 .hero-footer {
@@ -615,82 +616,123 @@ hr {
 }
 
 /* =========================================
-   SECTION VI — COMPETITIVE FRAME
+   SECTION VI — COMPETITIVE FRAME (SLIDER)
    ========================================= */
 .competitor-section {
   background: var(--white);
   padding: 8rem 0;
 }
 
-.competitor-row {
-  background: var(--off-white);
-  margin-bottom: 2rem;
-  padding: 2rem 0;
-}
-
-.competitor-header {
-  padding: 0 2rem;
-  margin-bottom: 1.5rem;
-}
-
-.competitor-name {
-  font-family: var(--font-sans);
-  font-weight: 500;
-  font-size: 0.875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--dark);
-}
-
-.competitor-scroll-area {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-  scrollbar-color: var(--muted) transparent;
-  padding: 0 2rem;
-}
-
-.competitor-scroll-area::-webkit-scrollbar {
-  height: 4px;
-}
-
-.competitor-scroll-area::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.competitor-scroll-area::-webkit-scrollbar-thumb {
-  background: var(--muted);
-}
-
-.competitor-screenshots {
-  display: flex;
-  gap: 1.5rem;
-  width: max-content;
-}
-
-.screenshot-container {
-  width: 500px;
-  flex-shrink: 0;
-  scroll-snap-align: start;
-}
-
-.screenshot-placeholder {
-  background: var(--dark-section);
-  aspect-ratio: 16 / 10;
+.slider-nav {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 2rem;
+  margin: 3rem 0 2rem;
+}
+
+.slider-arrow {
+  background: none;
+  border: 1px solid var(--divider);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  color: var(--dark);
+  transition: background 300ms var(--ease-out), color 300ms var(--ease-out);
+}
+
+.slider-arrow:hover {
+  background: var(--dark);
+  color: var(--white);
+}
+
+.slider-arrow:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.slider-arrow:disabled:hover {
+  background: none;
+  color: var(--dark);
+}
+
+.slider-indicator {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  min-width: 3rem;
+  text-align: center;
+}
+
+.slider-frame-title {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dark);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.slider-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 500ms var(--ease-out);
+}
+
+.slider-frame {
+  min-width: 100%;
+  flex-shrink: 0;
+  padding: 0 2rem;
+}
+
+.frame-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.frame-card {
+  position: relative;
+}
+
+.frame-card-label {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dark);
+  margin-bottom: 0.75rem;
+}
+
+.frame-card-screenshot {
+  background: var(--dark-section);
+  aspect-ratio: 10 / 14;
   position: relative;
   overflow: hidden;
   transition: transform 400ms var(--ease-out);
 }
 
-.screenshot-placeholder:hover {
+.frame-card-screenshot:hover {
   transform: scale(1.02);
 }
 
-.screenshot-placeholder .placeholder-pulse {
+.frame-card-screenshot .placeholder-pulse {
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, rgba(34,34,34,1) 0%, rgba(50,50,50,1) 50%, rgba(34,34,34,1) 100%);
@@ -698,37 +740,49 @@ hr {
   animation: placeholder-shift 4s ease-in-out infinite;
 }
 
-.screenshot-placeholder .placeholder-label {
+.frame-card-screenshot .placeholder-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.6875rem;
+  color: rgba(255, 255, 255, 0.35);
   letter-spacing: 0.05em;
-  position: relative;
+  text-align: center;
+  padding: 1rem;
   z-index: 2;
 }
 
-.screenshot-placeholder img {
+.frame-card-screenshot img {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   z-index: 1;
 }
 
-.competitor-video {
-  margin: 1.5rem 2rem 0;
-}
-
-.competitor-annotation {
-  padding: 1.5rem 2rem 0;
+.frame-card-note {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 0.8125rem;
+  font-size: 0.6875rem;
   color: var(--muted);
-  max-width: 700px;
-  line-height: 1.6;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+.frame-commentary {
+  max-width: 800px;
+  margin: 2.5rem auto 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.0625rem;
+  color: var(--body-text);
+  line-height: 1.75;
+  text-align: center;
 }
 
 .competitor-closing {
@@ -736,8 +790,7 @@ hr {
   font-weight: 400;
   font-size: 1.25rem;
   color: var(--body-text);
-  margin-top: 3rem;
-  padding: 0 2rem;
+  margin-top: 4rem;
 }
 
 /* =========================================
@@ -894,6 +947,114 @@ hr {
   line-height: 1.6;
 }
 
+.outcome-item[data-layer] {
+  cursor: pointer;
+  transition: opacity 300ms var(--ease-out);
+}
+
+.outcome-item[data-layer].dimmed {
+  opacity: 0.35;
+}
+
+/* Interactive Chart */
+.chart-section {
+  margin-top: 5rem;
+  padding-top: 4rem;
+  border-top: 1px solid var(--divider);
+}
+
+.chart-title {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+}
+
+.chart-subtitle {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.chart-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
+}
+
+.chart-toggle {
+  background: none;
+  border: 1px solid var(--divider);
+  padding: 0.4rem 0.85rem;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 300ms var(--ease-out);
+}
+
+.chart-toggle.active {
+  border-color: var(--dark);
+  color: var(--dark);
+}
+
+.chart-toggle .toggle-dot {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  transition: opacity 300ms var(--ease-out);
+}
+
+.chart-toggle:not(.active) .toggle-dot {
+  opacity: 0.3;
+}
+
+.chart-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.chart-container svg {
+  width: 100%;
+  height: auto;
+}
+
+.chart-total {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.chart-total-label {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.chart-total-value {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--dark);
+  display: block;
+  margin-top: 0.25rem;
+}
+
 /* =========================================
    SECTION XII — CLOSE
    ========================================= */
@@ -978,8 +1139,8 @@ hr {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .screenshot-container {
-    width: 400px;
+  .frame-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .section-padding {
@@ -1003,8 +1164,9 @@ hr {
     grid-template-columns: 1fr;
   }
 
-  .screenshot-container {
-    width: 320px;
+  .frame-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
 
   .section-padding {
@@ -1016,7 +1178,7 @@ hr {
   }
 
   .hero {
-    padding-bottom: 6rem;
+    padding-bottom: 10rem;
   }
 
   .quote-section {
@@ -1095,7 +1257,7 @@ hr {
         <span class="word-mask"><span class="word">Glass</span></span>
       </h1>
       <div class="hero-rule"></div>
-      <p class="hero-subtitle" data-parallax="0.3">A strategic perspective on what comes next.</p>
+      <p class="hero-subtitle">A strategic perspective on what comes next.</p>
     </div>
     <div class="hero-footer">
       <span>AKQA &mdash; Confidential &mdash; February 2026</span>
@@ -1165,7 +1327,7 @@ hr {
   <section class="section-light section-padding" id="position">
     <div class="content-wrap">
       <p class="section-label reveal">Position</p>
-      <h2 class="headline-section dark reveal stagger-1">Where they stand.</h2>
+      <h2 class="headline-section dark reveal stagger-1">Where you stand.</h2>
 
       <div class="position-grid">
         <!-- Left column — Scale -->
@@ -1223,172 +1385,156 @@ hr {
   </section>
 
   <!-- =========================================
-       SECTION VI — THE COMPETITIVE FRAME
+       SECTION VI — THE COMPETITIVE FRAME (SLIDER)
        ========================================= -->
   <section class="competitor-section" id="competitive-frame">
     <div class="content-wrap">
       <p class="section-label reveal">The Competitive Frame</p>
-      <h2 class="headline-section dark reveal stagger-1">What surrounds them.</h2>
+      <h2 class="headline-section dark reveal stagger-1">What surrounds you.</h2>
+
+      <!-- Slider Navigation -->
+      <div class="slider-nav reveal stagger-2">
+        <button class="slider-arrow" id="slider-prev" aria-label="Previous frame" disabled>&larr;</button>
+        <span class="slider-indicator"><span id="slider-current">1</span> / 3</span>
+        <button class="slider-arrow" id="slider-next" aria-label="Next frame">&rarr;</button>
+      </div>
     </div>
 
-    <!-- The Hour Glass -->
-    <div class="competitor-row reveal stagger-2">
-      <div class="competitor-header">
-        <p class="competitor-name">The Hour Glass</p>
-      </div>
-      <div class="competitor-scroll-area">
-        <div class="competitor-screenshots">
-          <div class="screenshot-container">
-            <div class="screenshot-placeholder">
-              <div class="placeholder-pulse"></div>
-              <span class="placeholder-label">THG &mdash; Landing Page</span>
-              <img src="/screenshots/thg-landing.png" alt="The Hour Glass landing page">
-            </div>
-          </div>
-          <div class="screenshot-container">
-            <div class="screenshot-placeholder">
-              <div class="placeholder-pulse"></div>
-              <span class="placeholder-label">THG &mdash; Product Page</span>
-              <img src="/screenshots/thg-product.png" alt="The Hour Glass product page">
-            </div>
-          </div>
-          <div class="screenshot-container">
-            <div class="screenshot-placeholder">
-              <div class="placeholder-pulse"></div>
-              <span class="placeholder-label">THG &mdash; Purchase Flow</span>
-              <img src="/screenshots/thg-purchase.png" alt="The Hour Glass purchase flow">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="competitor-video">
-        <div class="media-placeholder aspect-16-9">
-          <div class="placeholder-pulse"></div>
-          <span class="placeholder-label">Video: The Hour Glass website walkthrough</span>
-          <video src="/videos/thg-walkthrough.mp4" autoplay muted loop playsinline></video>
-        </div>
-      </div>
-      <p class="competitor-annotation">The website operates as editorial &mdash; brand narrative, not commerce. No purchase flow exists online.</p>
-    </div>
+    <div class="slider-container reveal stagger-3">
+      <div class="slider-track" id="slider-track">
 
-    <!-- Cortina Watch -->
-    <div class="competitor-row reveal">
-      <div class="competitor-header">
-        <p class="competitor-name">Cortina Watch</p>
-      </div>
-      <div class="competitor-scroll-area">
-        <div class="competitor-screenshots">
-          <div class="screenshot-container">
-            <div class="screenshot-placeholder">
-              <div class="placeholder-pulse"></div>
-              <span class="placeholder-label">Cortina &mdash; Landing Page</span>
-              <img src="/screenshots/cortina-landing.png" alt="Cortina Watch landing page">
+        <!-- Frame 1: Home Pages -->
+        <div class="slider-frame">
+          <p class="slider-frame-title">Home Page</p>
+          <div class="frame-grid">
+            <div class="frame-card">
+              <p class="frame-card-label">The Hour Glass</p>
+              <div class="frame-card-screenshot">
+                <div class="placeholder-pulse"></div>
+                <span class="placeholder-label">thehourglass.com</span>
+                <img src="https://image.thum.io/get/width/600/crop/840/noanimate/https://www.thehourglass.com/" alt="The Hour Glass home page" loading="lazy">
+              </div>
+              <p class="frame-card-note">Editorial narrative. Brand story above all else &mdash; no product grid, no pricing.</p>
+            </div>
+            <div class="frame-card">
+              <p class="frame-card-label">Cortina Watch</p>
+              <div class="frame-card-screenshot">
+                <div class="placeholder-pulse"></div>
+                <span class="placeholder-label">cortina.watch</span>
+                <img src="https://image.thum.io/get/width/600/crop/840/noanimate/https://www.cortina.watch/" alt="Cortina Watch home page" loading="lazy">
+              </div>
+              <p class="frame-card-note">Product-forward hero with brand carousel. Commerce intent from the first scroll.</p>
+            </div>
+            <div class="frame-card">
+              <p class="frame-card-label">Watches of Switzerland</p>
+              <div class="frame-card-screenshot">
+                <div class="placeholder-pulse"></div>
+                <span class="placeholder-label">watchesofswitzerland.com</span>
+                <img src="https://image.thum.io/get/width/600/crop/840/noanimate/https://www.watchesofswitzerland.com/" alt="Watches of Switzerland home page" loading="lazy">
+              </div>
+              <p class="frame-card-note">Full retail experience. Video, search, promotions &mdash; 22% of revenue generated digitally.</p>
+            </div>
+            <div class="frame-card">
+              <p class="frame-card-label">Hodinkee</p>
+              <div class="frame-card-screenshot">
+                <div class="placeholder-pulse"></div>
+                <span class="placeholder-label">hodinkee.com</span>
+                <img src="https://image.thum.io/get/width/600/crop/840/noanimate/https://www.hodinkee.com/" alt="Hodinkee home page" loading="lazy">
+              </div>
+              <p class="frame-card-note">Content-first. Editorial authority that converts readers into buyers.</p>
             </div>
           </div>
-          <div class="screenshot-container">
-            <div class="screenshot-placeholder">
-              <div class="placeholder-pulse"></div>
-              <span class="placeholder-label">Cortina &mdash; Product Page (Breitling Navitimer)</span>
-              <img src="/screenshots/cortina-product.png" alt="Cortina Watch product page">
-            </div>
-          </div>
-          <div class="screenshot-container">
-            <div class="screenshot-placeholder">
-              <div class="placeholder-pulse"></div>
-              <span class="placeholder-label">Cortina &mdash; Purchase Flow</span>
-              <img src="/screenshots/cortina-purchase.png" alt="Cortina Watch purchase flow">
-            </div>
-          </div>
+          <p class="frame-commentary">The Hour Glass leads with brand narrative. The rest lead with product and commerce. Two different philosophies &mdash; but only one leaves revenue on the table.</p>
         </div>
-      </div>
-      <div class="competitor-video">
-        <div class="media-placeholder aspect-16-9">
-          <div class="placeholder-pulse"></div>
-          <span class="placeholder-label">Video: Cortina Watch website walkthrough</span>
-          <video src="/videos/cortina-walkthrough.mp4" autoplay muted loop playsinline></video>
-        </div>
-      </div>
-      <p class="competitor-annotation">Full e-commerce with online exclusives. Transactional from search to checkout.</p>
-    </div>
 
-    <!-- Watches of Switzerland -->
-    <div class="competitor-row reveal">
-      <div class="competitor-header">
-        <p class="competitor-name">Watches of Switzerland</p>
-      </div>
-      <div class="competitor-scroll-area">
-        <div class="competitor-screenshots">
-          <div class="screenshot-container">
-            <div class="screenshot-placeholder">
-              <div class="placeholder-pulse"></div>
-              <span class="placeholder-label">WoS &mdash; Landing Page</span>
-              <img src="/screenshots/wos-landing.png" alt="Watches of Switzerland landing page">
+        <!-- Frame 2: Product Pages -->
+        <div class="slider-frame">
+          <p class="slider-frame-title">Product Page</p>
+          <div class="frame-grid">
+            <div class="frame-card">
+              <p class="frame-card-label">The Hour Glass</p>
+              <div class="frame-card-screenshot">
+                <div class="placeholder-pulse"></div>
+                <span class="placeholder-label">thehourglass.com/rolex</span>
+                <img src="https://image.thum.io/get/width/600/crop/840/noanimate/https://www.thehourglass.com/rolex/" alt="The Hour Glass Rolex page" loading="lazy">
+              </div>
+              <p class="frame-card-note">Brand landing page, not product detail. No individual watches, no specifications, no price.</p>
+            </div>
+            <div class="frame-card">
+              <p class="frame-card-label">Cortina Watch</p>
+              <div class="frame-card-screenshot">
+                <div class="placeholder-pulse"></div>
+                <span class="placeholder-label">cortina.watch/brands</span>
+                <img src="https://image.thum.io/get/width/600/crop/840/noanimate/https://www.cortina.watch/collections/brands/breitling" alt="Cortina Watch Breitling page" loading="lazy">
+              </div>
+              <p class="frame-card-note">Full product grid with pricing and add-to-cart. Transactional from browse to basket.</p>
+            </div>
+            <div class="frame-card">
+              <p class="frame-card-label">Watches of Switzerland</p>
+              <div class="frame-card-screenshot">
+                <div class="placeholder-pulse"></div>
+                <span class="placeholder-label">watchesofswitzerland.com/Rolex</span>
+                <img src="https://image.thum.io/get/width/600/crop/840/noanimate/https://www.watchesofswitzerland.com/Rolex" alt="Watches of Switzerland Rolex page" loading="lazy">
+              </div>
+              <p class="frame-card-note">Rich product detail. Pricing, stock indicators, virtual consultation booking.</p>
+            </div>
+            <div class="frame-card">
+              <p class="frame-card-label">Hodinkee</p>
+              <div class="frame-card-screenshot">
+                <div class="placeholder-pulse"></div>
+                <span class="placeholder-label">hodinkee.com/shop</span>
+                <img src="https://image.thum.io/get/width/600/crop/840/noanimate/https://www.hodinkee.com/shop" alt="Hodinkee shop page" loading="lazy">
+              </div>
+              <p class="frame-card-note">Curated shop. Editorial context wraps every product &mdash; reviews drive purchase decisions.</p>
             </div>
           </div>
-          <div class="screenshot-container">
-            <div class="screenshot-placeholder">
-              <div class="placeholder-pulse"></div>
-              <span class="placeholder-label">WoS &mdash; Product Page</span>
-              <img src="/screenshots/wos-product.png" alt="Watches of Switzerland product page">
-            </div>
-          </div>
-          <div class="screenshot-container">
-            <div class="screenshot-placeholder">
-              <div class="placeholder-pulse"></div>
-              <span class="placeholder-label">WoS &mdash; Checkout Flow</span>
-              <img src="/screenshots/wos-purchase.png" alt="Watches of Switzerland checkout flow">
-            </div>
-          </div>
+          <p class="frame-commentary">Cortina and WoS show full product detail with pricing and purchase paths. Hodinkee bridges editorial and commerce. The Hour Glass presents watches as narrative &mdash; no price, no purchase path.</p>
         </div>
-      </div>
-      <div class="competitor-video">
-        <div class="media-placeholder aspect-16-9">
-          <div class="placeholder-pulse"></div>
-          <span class="placeholder-label">Video: Watches of Switzerland website walkthrough</span>
-          <video src="/videos/wos-walkthrough.mp4" autoplay muted loop playsinline></video>
-        </div>
-      </div>
-      <p class="competitor-annotation">22% of revenue generated online. Virtual boutique staffed with video-chat advisors.</p>
-    </div>
 
-    <!-- Hodinkee -->
-    <div class="competitor-row reveal">
-      <div class="competitor-header">
-        <p class="competitor-name">Hodinkee</p>
-      </div>
-      <div class="competitor-scroll-area">
-        <div class="competitor-screenshots">
-          <div class="screenshot-container">
-            <div class="screenshot-placeholder">
-              <div class="placeholder-pulse"></div>
-              <span class="placeholder-label">Hodinkee &mdash; Landing Page</span>
-              <img src="/screenshots/hodinkee-landing.png" alt="Hodinkee landing page">
+        <!-- Frame 3: Cart / Purchase -->
+        <div class="slider-frame">
+          <p class="slider-frame-title">Cart &amp; Purchase</p>
+          <div class="frame-grid">
+            <div class="frame-card">
+              <p class="frame-card-label">The Hour Glass</p>
+              <div class="frame-card-screenshot">
+                <div class="placeholder-pulse"></div>
+                <span class="placeholder-label">No online purchase path</span>
+              </div>
+              <p class="frame-card-note">No cart. No checkout. The digital experience ends at discovery. The transaction requires a physical visit.</p>
+            </div>
+            <div class="frame-card">
+              <p class="frame-card-label">Cortina Watch</p>
+              <div class="frame-card-screenshot">
+                <div class="placeholder-pulse"></div>
+                <span class="placeholder-label">cortina.watch/cart</span>
+                <img src="https://image.thum.io/get/width/600/crop/840/noanimate/https://www.cortina.watch/cart" alt="Cortina Watch cart page" loading="lazy">
+              </div>
+              <p class="frame-card-note">Full checkout flow. Online exclusives drive conversion from discovery to delivery.</p>
+            </div>
+            <div class="frame-card">
+              <p class="frame-card-label">Watches of Switzerland</p>
+              <div class="frame-card-screenshot">
+                <div class="placeholder-pulse"></div>
+                <span class="placeholder-label">watchesofswitzerland.com/cart</span>
+                <img src="https://image.thum.io/get/width/600/crop/840/noanimate/https://www.watchesofswitzerland.com/shopping-bag" alt="Watches of Switzerland cart page" loading="lazy">
+              </div>
+              <p class="frame-card-note">Complete digital purchase path. Click-and-collect or home delivery.</p>
+            </div>
+            <div class="frame-card">
+              <p class="frame-card-label">Hodinkee</p>
+              <div class="frame-card-screenshot">
+                <div class="placeholder-pulse"></div>
+                <span class="placeholder-label">hodinkee.com/cart</span>
+                <img src="https://image.thum.io/get/width/600/crop/840/noanimate/https://www.hodinkee.com/cart" alt="Hodinkee cart page" loading="lazy">
+              </div>
+              <p class="frame-card-note">Streamlined checkout. Content-to-commerce pipeline fully closes the loop.</p>
             </div>
           </div>
-          <div class="screenshot-container">
-            <div class="screenshot-placeholder">
-              <div class="placeholder-pulse"></div>
-              <span class="placeholder-label">Hodinkee &mdash; Product Page</span>
-              <img src="/screenshots/hodinkee-product.png" alt="Hodinkee product page">
-            </div>
-          </div>
-          <div class="screenshot-container">
-            <div class="screenshot-placeholder">
-              <div class="placeholder-pulse"></div>
-              <span class="placeholder-label">Hodinkee &mdash; Purchase Flow</span>
-              <img src="/screenshots/hodinkee-purchase.png" alt="Hodinkee purchase flow">
-            </div>
-          </div>
+          <p class="frame-commentary">Three competitors offer a complete digital purchase path. The Hour Glass has none &mdash; the digital experience ends at discovery.</p>
         </div>
+
       </div>
-      <div class="competitor-video">
-        <div class="media-placeholder aspect-16-9">
-          <div class="placeholder-pulse"></div>
-          <span class="placeholder-label">Video: Hodinkee website walkthrough</span>
-          <video src="/videos/hodinkee-walkthrough.mp4" autoplay muted loop playsinline></video>
-        </div>
-      </div>
-      <p class="competitor-annotation">Editorial authority monetised. Content-to-commerce pipeline that captures the discovery phase.</p>
     </div>
 
     <div class="content-wrap">
@@ -1540,49 +1686,73 @@ hr {
   <section class="section-light section-padding" id="outcomes">
     <div class="content-wrap">
       <p class="section-label reveal">Projected Outcomes</p>
-      <h2 class="headline-section dark reveal stagger-1">Hypothetical impact. Twenty-four months.</h2>
+      <h2 class="headline-section dark reveal stagger-1">Hypothetical impact. Five years.</h2>
 
       <div class="outcomes-grid">
-        <div class="outcome-item reveal stagger-1">
-          <p class="stat-number" data-count-text="+15–20%">+15–20%</p>
+        <div class="outcome-item reveal stagger-1" data-layer="digital">
+          <p class="stat-number" data-count-text="+8–12%">+8–12%</p>
           <div class="stat-divider"></div>
           <p class="stat-label">Digital-influenced revenue</p>
-          <p class="outcome-note">From near-zero to meaningful omnichannel share.</p>
+          <p class="outcome-note">~S$93M–S$139M incremental over base. From near-zero digital share to meaningful omnichannel contribution.</p>
         </div>
 
-        <div class="outcome-item reveal stagger-2">
-          <p class="stat-number" data-count-text="+25–35%">+25–35%</p>
+        <div class="outcome-item reveal stagger-2" data-layer="retention">
+          <p class="stat-number" data-count-text="+12–18%">+12–18%</p>
           <div class="stat-divider"></div>
           <p class="stat-label">Client retention</p>
-          <p class="outcome-note">Unified profiles. Proactive outreach. Cross-market continuity.</p>
+          <p class="outcome-note">~S$35M–S$52M retained annually. Unified profiles, proactive outreach, cross-market continuity.</p>
         </div>
 
-        <div class="outcome-item reveal stagger-3">
-          <p class="stat-number" data-count-text="+40%">+40%</p>
+        <div class="outcome-item reveal stagger-3" data-layer="crosssell">
+          <p class="stat-number" data-count-text="+15–20%">+15–20%</p>
           <div class="stat-divider"></div>
           <p class="stat-label">Cross-sell conversion</p>
-          <p class="outcome-note">The right watch. The right client. The right moment.</p>
+          <p class="outcome-note">~S$23M–S$35M incremental. The right watch, the right client, the right moment.</p>
         </div>
 
-        <div class="outcome-item reveal stagger-4">
-          <p class="stat-number" data-count-text="3–5x">3–5x</p>
+        <div class="outcome-item reveal stagger-4" data-layer="content">
+          <p class="stat-number" data-count-text="2–3x">2–3x</p>
           <div class="stat-divider"></div>
           <p class="stat-label">Content engagement</p>
-          <p class="outcome-note">Cultural platform. Organic reach. Authority compounded.</p>
+          <p class="outcome-note">Organic reach compounding. Cultural authority driving discovery-stage acquisition.</p>
         </div>
 
-        <div class="outcome-item reveal stagger-5">
+        <div class="outcome-item reveal stagger-5" data-layer="cpo">
           <p class="stat-number" data-count-text="New P&amp;L">New P&amp;L</p>
           <div class="stat-divider"></div>
           <p class="stat-label">CPO revenue stream</p>
-          <p class="outcome-note">45 years of provenance data activated.</p>
+          <p class="outcome-note">~S$15M–S$25M by year 3. 45 years of provenance data activated.</p>
         </div>
 
-        <div class="outcome-item reveal stagger-6">
-          <p class="stat-number" data-count-text="+30%">+30%</p>
+        <div class="outcome-item reveal stagger-6" data-layer="productivity">
+          <p class="stat-number" data-count-text="+10–15%">+10–15%</p>
           <div class="stat-divider"></div>
           <p class="stat-label">Staff productivity</p>
-          <p class="outcome-note">Intelligent tools. More time for relationships.</p>
+          <p class="outcome-note">~S$8M–S$12M in efficiency gains. Intelligent tools free time for relationships.</p>
+        </div>
+      </div>
+
+      <!-- Interactive Stacked Area Chart -->
+      <div class="chart-section reveal" id="impact-chart-section">
+        <p class="chart-title">Cumulative Revenue Impact</p>
+        <p class="chart-subtitle">Tap categories to toggle. Values are illustrative projections (S$ millions).</p>
+
+        <div class="chart-toggles" id="chart-toggles">
+          <button class="chart-toggle active" data-layer="digital"><span class="toggle-dot" style="background:#555"></span>Digital Revenue</button>
+          <button class="chart-toggle active" data-layer="retention"><span class="toggle-dot" style="background:#777"></span>Client Retention</button>
+          <button class="chart-toggle active" data-layer="crosssell"><span class="toggle-dot" style="background:#999"></span>Cross-sell</button>
+          <button class="chart-toggle active" data-layer="content"><span class="toggle-dot" style="background:#AAA"></span>Content</button>
+          <button class="chart-toggle active" data-layer="cpo"><span class="toggle-dot" style="background:#BBB"></span>CPO Stream</button>
+          <button class="chart-toggle active" data-layer="productivity"><span class="toggle-dot" style="background:#CCC"></span>Productivity</button>
+        </div>
+
+        <div class="chart-container">
+          <svg id="impact-chart" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+
+        <div class="chart-total" id="chart-total">
+          <span class="chart-total-label">Year 5 projected total:</span>
+          <span class="chart-total-value" id="chart-total-value">S$318M</span>
         </div>
       </div>
     </div>
@@ -1651,6 +1821,8 @@ hr {
         initScrollReveal();
         initVideoObserver();
         initStatCounters();
+        initSlider();
+        initChart();
         if (!prefersReducedMotion()) {
           initParallax();
         }
@@ -1824,6 +1996,229 @@ hr {
     }
 
     requestAnimationFrame(step);
+  }
+
+  /* =========================================
+     COMPETITIVE FRAME SLIDER
+     ========================================= */
+  function initSlider() {
+    var track = document.getElementById('slider-track');
+    var prevBtn = document.getElementById('slider-prev');
+    var nextBtn = document.getElementById('slider-next');
+    var indicator = document.getElementById('slider-current');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    var currentFrame = 0;
+    var totalFrames = 3;
+
+    function goToFrame(n) {
+      currentFrame = Math.max(0, Math.min(n, totalFrames - 1));
+      track.style.transform = 'translateX(-' + (currentFrame * 100) + '%)';
+      indicator.textContent = currentFrame + 1;
+      prevBtn.disabled = currentFrame === 0;
+      nextBtn.disabled = currentFrame === totalFrames - 1;
+    }
+
+    prevBtn.addEventListener('click', function() { goToFrame(currentFrame - 1); });
+    nextBtn.addEventListener('click', function() { goToFrame(currentFrame + 1); });
+
+    // Keyboard navigation when section is in view
+    var section = document.getElementById('competitive-frame');
+    var sectionInView = false;
+
+    if ('IntersectionObserver' in window) {
+      var sectionObserver = new IntersectionObserver(function(entries) {
+        sectionInView = entries[0].isIntersecting;
+      }, { threshold: 0.2 });
+      sectionObserver.observe(section);
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (!sectionInView) return;
+      if (e.key === 'ArrowLeft') { goToFrame(currentFrame - 1); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { goToFrame(currentFrame + 1); e.preventDefault(); }
+    });
+
+    // Touch swipe support
+    var startX = 0;
+    var isDragging = false;
+
+    track.addEventListener('touchstart', function(e) {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    }, { passive: true });
+
+    track.addEventListener('touchend', function(e) {
+      if (!isDragging) return;
+      isDragging = false;
+      var endX = e.changedTouches[0].clientX;
+      var diff = startX - endX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) goToFrame(currentFrame + 1);
+        else goToFrame(currentFrame - 1);
+      }
+    }, { passive: true });
+
+    goToFrame(0);
+  }
+
+  /* =========================================
+     INTERACTIVE IMPACT CHART
+     ========================================= */
+  function initChart() {
+    var svg = document.getElementById('impact-chart');
+    var toggles = document.querySelectorAll('.chart-toggle');
+    var totalValue = document.getElementById('chart-total-value');
+    var outcomeItems = document.querySelectorAll('.outcome-item[data-layer]');
+    if (!svg) return;
+
+    // Data: cumulative S$ millions per year for each layer
+    var layerData = {
+      digital:      [25, 55, 90, 120, 145],
+      retention:    [10, 25, 40, 50, 55],
+      crosssell:    [8, 18, 30, 38, 42],
+      content:      [3, 8, 15, 22, 28],
+      cpo:          [0, 5, 15, 22, 28],
+      productivity: [5, 10, 15, 18, 20]
+    };
+
+    var layerColors = {
+      digital:      '#444',
+      retention:    '#666',
+      crosssell:    '#888',
+      content:      '#AAA',
+      cpo:          '#BBB',
+      productivity: '#D0D0D0'
+    };
+
+    var layerOrder = ['productivity', 'cpo', 'content', 'crosssell', 'retention', 'digital'];
+    var activeLayers = { digital: true, retention: true, crosssell: true, content: true, cpo: true, productivity: true };
+
+    var chartW = 800;
+    var chartH = 400;
+    var padL = 60;
+    var padR = 30;
+    var padT = 20;
+    var padB = 50;
+    var plotW = chartW - padL - padR;
+    var plotH = chartH - padT - padB;
+
+    function getMaxY() {
+      var max = 0;
+      for (var y = 0; y < 5; y++) {
+        var sum = 0;
+        layerOrder.forEach(function(key) {
+          if (activeLayers[key]) sum += layerData[key][y];
+        });
+        if (sum > max) max = sum;
+      }
+      return Math.ceil(max / 50) * 50 || 50;
+    }
+
+    function buildChart() {
+      var maxY = getMaxY();
+      var html = '';
+
+      // Grid lines and Y-axis labels
+      var gridSteps = 5;
+      for (var g = 0; g <= gridSteps; g++) {
+        var gy = padT + plotH - (g / gridSteps) * plotH;
+        var val = Math.round((g / gridSteps) * maxY);
+        html += '<line x1="' + padL + '" y1="' + gy + '" x2="' + (padL + plotW) + '" y2="' + gy + '" stroke="#E5E5E5" stroke-width="1"/>';
+        html += '<text x="' + (padL - 10) + '" y="' + (gy + 4) + '" text-anchor="end" fill="#BFBFBF" font-family="Inter,sans-serif" font-size="11">' + val + '</text>';
+      }
+
+      // X-axis labels
+      var years = ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'];
+      for (var x = 0; x < 5; x++) {
+        var xPos = padL + (x / 4) * plotW;
+        html += '<text x="' + xPos + '" y="' + (chartH - 15) + '" text-anchor="middle" fill="#BFBFBF" font-family="Inter,sans-serif" font-size="11">' + years[x] + '</text>';
+      }
+
+      // Build stacked areas from bottom up
+      var baseLine = [];
+      for (var b = 0; b < 5; b++) baseLine.push(0);
+
+      layerOrder.forEach(function(key) {
+        if (!activeLayers[key]) return;
+        var topLine = [];
+        for (var i = 0; i < 5; i++) {
+          topLine.push(baseLine[i] + layerData[key][i]);
+        }
+
+        // Build area path
+        var path = 'M';
+        for (var i = 0; i < 5; i++) {
+          var px = padL + (i / 4) * plotW;
+          var py = padT + plotH - (topLine[i] / maxY) * plotH;
+          path += (i > 0 ? ' L' : '') + px + ' ' + py;
+        }
+        // Back along baseline
+        for (var i = 4; i >= 0; i--) {
+          var px = padL + (i / 4) * plotW;
+          var py = padT + plotH - (baseLine[i] / maxY) * plotH;
+          path += ' L' + px + ' ' + py;
+        }
+        path += ' Z';
+
+        html += '<path d="' + path + '" fill="' + layerColors[key] + '" opacity="0.85"><animate attributeName="opacity" from="0" to="0.85" dur="0.4s" fill="freeze"/></path>';
+
+        // Dot markers on the top line
+        for (var i = 0; i < 5; i++) {
+          var px = padL + (i / 4) * plotW;
+          var py = padT + plotH - (topLine[i] / maxY) * plotH;
+          html += '<circle cx="' + px + '" cy="' + py + '" r="3" fill="' + layerColors[key] + '" stroke="#fff" stroke-width="1.5"/>';
+        }
+
+        baseLine = topLine.slice();
+      });
+
+      // Y-axis unit
+      html += '<text x="' + padL + '" y="' + (padT - 6) + '" text-anchor="start" fill="#BFBFBF" font-family="Inter,sans-serif" font-size="10" letter-spacing="0.05em">S$ MILLIONS</text>';
+
+      svg.innerHTML = html;
+
+      // Update total
+      var total = 0;
+      layerOrder.forEach(function(key) {
+        if (activeLayers[key]) total += layerData[key][4];
+      });
+      totalValue.textContent = 'S$' + total + 'M';
+
+      // Dim/undim outcome cards
+      outcomeItems.forEach(function(item) {
+        var layer = item.getAttribute('data-layer');
+        if (activeLayers[layer]) {
+          item.classList.remove('dimmed');
+        } else {
+          item.classList.add('dimmed');
+        }
+      });
+    }
+
+    // Toggle handlers
+    toggles.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var layer = btn.getAttribute('data-layer');
+        activeLayers[layer] = !activeLayers[layer];
+        btn.classList.toggle('active');
+        buildChart();
+      });
+    });
+
+    // Outcome card click toggles too
+    outcomeItems.forEach(function(item) {
+      item.addEventListener('click', function() {
+        var layer = item.getAttribute('data-layer');
+        activeLayers[layer] = !activeLayers[layer];
+        // Sync toggle button
+        var btn = document.querySelector('.chart-toggle[data-layer="' + layer + '"]');
+        if (btn) btn.classList.toggle('active');
+        buildChart();
+      });
+    });
+
+    buildChart();
   }
 
   /* =========================================
