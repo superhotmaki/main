@@ -886,6 +886,19 @@ hr {
   align-items: center;
   justify-content: center;
   min-height: 70vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.tension-section > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  z-index: 0;
+  opacity: 0.35;
 }
 
 .tension-text {
@@ -896,6 +909,8 @@ hr {
   color: var(--off-white);
   text-align: center;
   max-width: 800px;
+  position: relative;
+  z-index: 1;
 }
 
 /* =========================================
@@ -1662,6 +1677,7 @@ hr {
        SECTION VII — THE TENSION
        ========================================= -->
   <section class="tension-section" id="tension">
+    <img src="https://img.thehourglass.com/tachyon/2024/06/Ginza-Japan-TheHourGlass-3.jpg?w=3840&quality=90" alt="" loading="lazy">
     <p class="tension-text reveal reveal-slow" data-parallax="0.15">The boutique ends at the door.<br>The collector&rsquo;s journey does not.</p>
   </section>
 
@@ -1750,36 +1766,36 @@ hr {
         <div class="akqa-column reveal stagger-2">
           <div class="media-placeholder aspect-16-9">
             <div class="placeholder-pulse"></div>
-            <span class="placeholder-label">AKQA &mdash; ECCO composable commerce</span>
-            <img src="https://image.thum.io/get/width/800/crop/450/noanimate/https://www.akqa.com/work/ecco/make-the-everyday-aspirational/" alt="AKQA ECCO case study" loading="lazy">
+            <span class="placeholder-label">AKQA &mdash; Dior: The Maison Dior</span>
+            <img src="https://image.thum.io/get/width/800/crop/450/noanimate/https://www.akqa.com/work/dior/the-maison-dior/" alt="AKQA Dior case study" loading="lazy">
           </div>
           <p class="column-title">Experience Strategy and Design</p>
           <p class="column-desc">Map the end-to-end collector journey. Identify the highest-value moments &mdash; discovery, acquisition, ownership, advocacy &mdash; and design the digital layer around them.</p>
-          <p class="column-ref">Reference: <a href="https://www.akqa.com/work/ecco/make-the-everyday-aspirational/" target="_blank" rel="noopener">ECCO &mdash; six-year composable commerce transformation.</a></p>
+          <p class="column-ref">Reference: <a href="https://www.akqa.com/work/dior/the-maison-dior/" target="_blank" rel="noopener">Dior &mdash; 45-market digital transformation. The boutique, reconceived.</a></p>
         </div>
 
         <!-- Column II -->
         <div class="akqa-column reveal stagger-3">
           <div class="media-placeholder aspect-16-9">
             <div class="placeholder-pulse"></div>
-            <span class="placeholder-label">AKQA &mdash; Generative Store with Google</span>
-            <img src="https://image.thum.io/get/width/800/crop/450/noanimate/https://www.akqa.com/work/google/bringing-emotion-and-intuition-back-to-online-shopping/" alt="AKQA Generative Store case study" loading="lazy">
+            <span class="placeholder-label">AKQA &mdash; Louis Vuitton: The LV App</span>
+            <img src="https://image.thum.io/get/width/800/crop/450/noanimate/https://www.akqa.com/work/louis-vuitton/the-lv-app/" alt="AKQA Louis Vuitton case study" loading="lazy">
           </div>
           <p class="column-title">Connected Commerce Platform</p>
           <p class="column-desc">Build the infrastructure that unifies 70+ boutiques into one relationship. Appointment booking, virtual consultations, allocation management, collection tracking.</p>
-          <p class="column-ref">Reference: <a href="https://www.akqa.com/work/google/bringing-emotion-and-intuition-back-to-online-shopping/" target="_blank" rel="noopener">Generative Store &mdash; with Google Gemini. Commerce as relationship, not transaction.</a></p>
+          <p class="column-ref">Reference: <a href="https://www.akqa.com/work/louis-vuitton/the-lv-app/" target="_blank" rel="noopener">Louis Vuitton &mdash; The LV App. Commerce as relationship, not transaction.</a></p>
         </div>
 
         <!-- Column III -->
         <div class="akqa-column reveal stagger-4">
           <div class="media-placeholder aspect-16-9">
             <div class="placeholder-pulse"></div>
-            <span class="placeholder-label">AKQA &mdash; Georg Jensen luxury retail</span>
-            <img src="https://image.thum.io/get/width/800/crop/450/noanimate/https://www.akqa.com/work/georg-jensen/the-futures-in-store/" alt="AKQA Georg Jensen case study" loading="lazy">
+            <span class="placeholder-label">AKQA &mdash; Rolls-Royce: The Perfect Host</span>
+            <img src="https://image.thum.io/get/width/800/crop/450/noanimate/https://www.akqa.com/work/rolls-royce-motor-cars/dotcom/" alt="AKQA Rolls-Royce case study" loading="lazy">
           </div>
           <p class="column-title">AI and Data Intelligence</p>
           <p class="column-desc">Deploy AI-powered clienteling across every boutique advisor. Unified client profiles, cross-market insights, next-best-action. Four Seasons service at scale.</p>
-          <p class="column-ref">Reference: <a href="https://www.akqa.com/work/georg-jensen/the-futures-in-store/" target="_blank" rel="noopener">Georg Jensen &mdash; physical-digital luxury retail experience.</a></p>
+          <p class="column-ref">Reference: <a href="https://www.akqa.com/work/rolls-royce-motor-cars/dotcom/" target="_blank" rel="noopener">Rolls-Royce &mdash; hyper-personalised clienteling for the world&rsquo;s most discerning patrons.</a></p>
         </div>
       </div>
 
